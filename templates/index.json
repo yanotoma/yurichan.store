@@ -74,10 +74,30 @@
         "padding_top": 44,
         "padding_bottom": 36
       }
+    },
+    "yuri_story": {
+      "type": "yuri-story",
+      "settings": {
+        "heading": "Inspired by Yuri, Made for Your Pets",
+        "story_text": "<p>Yuri Chan Store was born out of deep love and devotion. Named after my daughter Yuri, our brand brings that same tender care and affection to pet products worldwide. We believe every pet deserves high-quality, cute, and comfortable essentials!</p>",
+        "button_label": "Explore Collection",
+        "button_link": "shopify://collections/all",
+        "color_scheme": "scheme-1",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "pet_features": {
+      "type": "pet-features",
+      "settings": {
+        "color_scheme": "scheme-1"
+      }
     }
   },
   "order": [
     "image_banner",
-    "featured_collection"
+    "featured_collection",
+    "yuri_story",
+    "pet_features"
   ]
 }

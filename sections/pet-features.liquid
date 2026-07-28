@@ -1,0 +1,50 @@
+<div class="color-{{ section.settings.color_scheme }} gradient py-12 border-t border-b border-[rgba(184,167,212,0.2)]">
+  <div class="page-width">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+      <div class="p-6 rounded-2xl bg-white shadow-xs border border-[rgba(184,167,212,0.15)] flex flex-col items-center">
+        <div class="w-14 h-14 rounded-full bg-[var(--color-yuri-bg)] text-2xl flex items-center justify-center mb-4 border border-[var(--color-yuri-lilac)]">
+          🚚
+        </div>
+        <h3 class="font-bold text-xl text-[var(--color-yuri-gray)] font-['Fredoka'] mb-2">Worldwide Shipping</h3>
+        <p class="text-[var(--color-yuri-gray)] text-sm font-['Quicksand']">Delivering love and cute pet supplies to furry friends all across the globe.</p>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-white shadow-xs border border-[rgba(184,167,212,0.15)] flex flex-col items-center">
+        <div class="w-14 h-14 rounded-full bg-[var(--color-yuri-bg)] text-2xl flex items-center justify-center mb-4 border border-[var(--color-yuri-lilac)]">
+          ✨
+        </div>
+        <h3 class="font-bold text-xl text-[var(--color-yuri-gray)] font-['Fredoka'] mb-2">Premium & Safe Materials</h3>
+        <p class="text-[var(--color-yuri-gray)] text-sm font-['Quicksand']">Every item is tested for pet comfort, safety, and utmost durability.</p>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-white shadow-xs border border-[rgba(184,167,212,0.15)] flex flex-col items-center">
+        <div class="w-14 h-14 rounded-full bg-[var(--color-yuri-bg)] text-2xl flex items-center justify-center mb-4 border border-[var(--color-yuri-lilac)]">
+          💖
+        </div>
+        <h3 class="font-bold text-xl text-[var(--color-yuri-gray)] font-['Fredoka'] mb-2">100% Happiness Promise</h3>
+        <p class="text-[var(--color-yuri-gray)] text-sm font-['Quicksand']">We're here for you and your pets. Satisfaction guaranteed on every order!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Pet Features",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pet Features"
+    }
+  ]
+}
+{% endschema %}

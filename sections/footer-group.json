@@ -4,12 +4,22 @@
   "sections": {
     "footer": {
       "type": "footer",
-      "blocks": {},
-      "block_order": [],
+      "blocks": {
+        "text": {
+          "type": "text",
+          "settings": {
+            "heading": "Yuri Chan Store 🐾",
+            "subtext": "<p>Cute, high-quality, and loving pet products worldwide. Inspired by Yuri with tender care for every pet!</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text"
+      ],
       "settings": {
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-5",
         "newsletter_enable": true,
-        "newsletter_heading": "Subscribe to our emails",
+        "newsletter_heading": "Join the Yuri Chan Pet Family 🐾",
         "enable_follow_on_shop": true,
         "show_social": true,
         "enable_country_selector": true,
@@ -17,7 +27,7 @@
         "payment_enable": true,
         "show_policy": true,
         "margin_top": 0,
-        "padding_top": 36,
+        "padding_top": 48,
         "padding_bottom": 36
       }
     }
