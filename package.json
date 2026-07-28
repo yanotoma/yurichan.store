@@ -6,7 +6,7 @@
   "scripts": {
     "build:css": "npx @tailwindcss/cli -i ./src/tailwind.css -o ./assets/tailwind.css --minify",
     "watch:css": "npx @tailwindcss/cli -i ./src/tailwind.css -o ./assets/tailwind.css --watch",
-    "dev": "npx @tailwindcss/cli -i ./src/tailwind.css -o ./assets/tailwind.css --watch & shopify theme dev --store yurichan.store"
+    "dev": "npx @tailwindcss/cli -i ./src/tailwind.css -o ./assets/tailwind.css --watch & shopify theme dev --store bys-user-store-173607-4xg1yipr.myshopify.com"
   },
   "repository": {
     "type": "git",
