@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --color-yuri-gray: #545c65;
+  --color-yuri-lilac: #b8a7d4;
+  --color-yuri-yellow: #ffeaa7;
+  --color-yuri-bg: #faf9fc;
+
+  --font-cute: 'Fredoka', 'Quicksand', system-ui, sans-serif;
+}
+
+/* Custom Utilities for Yuri Chan Store Cute Vibe */
+@utility cute-card {
+  border-radius: 1.25rem;
+  background-color: #ffffff;
+  box-shadow: 0 10px 25px -5px rgba(184, 167, 212, 0.15);
+  border: 1px solid rgba(184, 167, 212, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+@utility cute-badge {
+  background-color: var(--color-yuri-yellow);
+  color: var(--color-yuri-gray);
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+}
