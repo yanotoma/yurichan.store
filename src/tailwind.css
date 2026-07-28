@@ -26,3 +26,42 @@
   border-radius: 9999px;
   font-size: 0.75rem;
 }
+
+/* Equal Height Product Grid Alignment */
+.grid .card-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid .card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.grid .card__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+.grid .card__heading {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.grid .card__inner {
+  border-radius: 1rem !important;
+  overflow: hidden;
+}
+
+.grid .quick-add {
+  margin-top: auto;
+}
