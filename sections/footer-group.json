@@ -8,7 +8,7 @@
         "text": {
           "type": "text",
           "settings": {
-            "heading": "Yuri Chan Store 🐾",
+            "heading": "Yurichan Store 🐾",
             "subtext": "<p>Cute, high-quality, and loving pet products worldwide. Inspired by Yuri with tender care for every pet!</p>"
           }
         }
@@ -19,7 +19,7 @@
       "settings": {
         "color_scheme": "scheme-5",
         "newsletter_enable": true,
-        "newsletter_heading": "Join the Yuri Chan Pet Family 🐾",
+        "newsletter_heading": "Join the Yurichan Pet Family 🐾",
         "enable_follow_on_shop": true,
         "show_social": true,
         "enable_country_selector": true,
