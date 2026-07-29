@@ -1,33 +1,85 @@
 @import "tailwindcss";
 
 @theme {
-  --color-yuri-gray: #545c65;
   --color-yuri-lilac: #b8a7d4;
-  --color-yuri-yellow: #ffeaa7;
-  --color-yuri-bg: #faf9fc;
+  --color-yuri-pink: #ffb7b2;
+  --color-yuri-yellow: #fff176;
+  --color-yuri-mint: #b5ead7;
+  --color-yuri-bg: #faf8ff;
+  --color-yuri-dark: #2b2b2b;
 
-  --font-cute: 'Fredoka', 'Quicksand', system-ui, sans-serif;
+  --font-fredoka: 'Fredoka', cursive, sans-serif;
+  --font-quicksand: 'Quicksand', sans-serif;
 }
 
-/* Custom Utilities for Yurichan Store Cute Vibe */
-@utility cute-card {
-  border-radius: 1.25rem;
+/* Base Body Styles */
+body {
+  font-family: var(--font-quicksand);
+  background-color: var(--color-yuri-bg);
+  color: var(--color-yuri-dark);
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-fredoka) !important;
+}
+
+/* Neo-Brutalist Utility Classes */
+@utility neo-card {
   background-color: #ffffff;
-  box-shadow: 0 10px 25px -5px rgba(184, 167, 212, 0.15);
-  border: 1px solid rgba(184, 167, 212, 0.2);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 3px solid var(--color-yuri-dark);
+  border-radius: 1.25rem;
+  box-shadow: 4px 4px 0px var(--color-yuri-dark);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-@utility cute-badge {
-  background-color: var(--color-yuri-yellow);
-  color: var(--color-yuri-gray);
-  font-weight: 600;
-  padding: 0.25rem 0.75rem;
+@utility neo-card-hover {
+  &:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 7px 7px 0px var(--color-yuri-dark);
+  }
+}
+
+@utility neo-button {
+  background-color: var(--color-yuri-lilac);
+  color: var(--color-yuri-dark);
+  font-family: var(--font-fredoka);
+  font-weight: 700;
+  border: 3px solid var(--color-yuri-dark);
   border-radius: 9999px;
-  font-size: 0.75rem;
+  box-shadow: 4px 4px 0px var(--color-yuri-dark);
+  transition: all 0.15s ease;
+  cursor: pointer;
+  padding: 0.6rem 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px var(--color-yuri-dark);
+    background-color: #c9bae4;
+  }
+  
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--color-yuri-dark);
+  }
 }
 
-/* Equal Height Product Grid Alignment */
+@utility neo-badge {
+  background-color: var(--color-yuri-yellow);
+  color: var(--color-yuri-dark);
+  font-family: var(--font-fredoka);
+  font-weight: 700;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  border: 2px solid var(--color-yuri-dark);
+  box-shadow: 2px 2px 0px var(--color-yuri-dark);
+  font-size: 0.8rem;
+  display: inline-block;
+}
+
+/* Equal Height Product Grid Alignment with Neo-Brutalist Touch */
 .grid .card-wrapper {
   height: 100%;
   display: flex;
@@ -39,6 +91,16 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border: 3px solid var(--color-yuri-dark) !important;
+  border-radius: 1.25rem !important;
+  box-shadow: 4px 4px 0px var(--color-yuri-dark) !important;
+  background-color: #ffffff !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.grid .card:hover {
+  transform: translate(-3px, -3px) !important;
+  box-shadow: 7px 7px 0px var(--color-yuri-dark) !important;
 }
 
 .grid .card__content {
@@ -46,22 +108,45 @@
   flex-direction: column;
   justify-content: space-between;
   flex-grow: 1;
+  padding: 1rem !important;
 }
 
 .grid .card__heading {
+  font-family: var(--font-fredoka) !important;
+  font-weight: 700;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   min-height: 2.8rem;
   margin-bottom: 0.5rem;
+  color: var(--color-yuri-dark);
 }
 
 .grid .card__inner {
-  border-radius: 1rem !important;
+  border-radius: 1rem 1rem 0 0 !important;
   overflow: hidden;
+  border-bottom: 3px solid var(--color-yuri-dark) !important;
 }
 
 .grid .quick-add {
   margin-top: auto;
+  padding: 0.5rem 1rem 1rem 1rem;
+}
+
+.grid .quick-add button {
+  border: 2.5px solid var(--color-yuri-dark) !important;
+  box-shadow: 3px 3px 0px var(--color-yuri-dark) !important;
+  border-radius: 9999px !important;
+  font-family: var(--font-fredoka) !important;
+  font-weight: 700 !important;
+  background-color: var(--color-yuri-lilac) !important;
+  color: var(--color-yuri-dark) !important;
+  transition: all 0.15s ease !important;
+}
+
+.grid .quick-add button:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 5px 5px 0px var(--color-yuri-dark) !important;
+  background-color: var(--color-yuri-pink) !important;
 }
