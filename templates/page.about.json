@@ -1,0 +1,32 @@
+{
+  "sections": {
+    "hero": {
+      "type": "image-banner",
+      "settings": {
+        "subtitle": "About Yurichan 🐾",
+        "title": "Crafted with Love for Every Best Friend",
+        "description": "At Yurichan Store, we believe pets are family. We design adorable, comfortable, and durable products to make every moment with your furry friend special.",
+        "button_label": "Explore Collection",
+        "button_link": "/collections/all"
+      }
+    },
+    "story": {
+      "type": "yuri-story",
+      "settings": {
+        "subheading": "Our Heartfelt Story",
+        "heading": "From Our Family to Yours",
+        "story_text": "<p>Yurichan Store started with a simple mission: to create cute, high-quality pet essentials that don't compromise on comfort or safety.</p><p>Every accessory, bed, and toy is thoughtfully designed and tested with our own pets to ensure maximum durability and happiness.</p>",
+        "button_label": "Shop All Items",
+        "button_link": "/collections/all"
+      }
+    },
+    "features": {
+      "type": "pet-features"
+    }
+  },
+  "order": [
+    "hero",
+    "story",
+    "features"
+  ]
+}

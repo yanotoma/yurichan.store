@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "hero": {
+      "type": "image-banner",
+      "settings": {
+        "subtitle": "Help Center",
+        "title": "Frequently Asked Questions",
+        "description": "Find quick answers to common questions about sizing, shipping times, materials, and caring for your Yurichan items.",
+        "button_label": "Contact Us",
+        "button_link": "/pages/contact"
+      }
+    },
+    "main": {
+      "type": "main-page"
+    },
+    "features": {
+      "type": "pet-features"
+    }
+  },
+  "order": [
+    "hero",
+    "main",
+    "features"
+  ]
+}

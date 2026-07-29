@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "hero": {
+      "type": "image-banner",
+      "settings": {
+        "subtitle": "Hassle-Free Returns",
+        "title": "100% Happiness Guarantee",
+        "description": "If you or your pet aren't completely in love with your purchase, we're here to help make it right with easy returns and exchanges.",
+        "button_label": "Contact Support",
+        "button_link": "/pages/contact"
+      }
+    },
+    "main": {
+      "type": "main-page"
+    },
+    "features": {
+      "type": "pet-features"
+    }
+  },
+  "order": [
+    "hero",
+    "main",
+    "features"
+  ]
+}

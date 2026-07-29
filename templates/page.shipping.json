@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "hero": {
+      "type": "image-banner",
+      "settings": {
+        "subtitle": "Shipping & Delivery",
+        "title": "Fast, Safe & Reliable Shipping Worldwide",
+        "description": "We package every order with extreme care so your pet's new favorite items arrive safely and quickly at your doorstep.",
+        "button_label": "Shop All Items",
+        "button_link": "/collections/all"
+      }
+    },
+    "main": {
+      "type": "main-page"
+    },
+    "features": {
+      "type": "pet-features"
+    }
+  },
+  "order": [
+    "hero",
+    "main",
+    "features"
+  ]
+}
