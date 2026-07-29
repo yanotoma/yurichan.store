@@ -87,6 +87,17 @@
 }
 
 /* ============================================================
+   SHOPIFY DYNAMIC CHECKOUT BUTTONS (Shop Pay, PayPal, Google Pay)
+   ============================================================ */
+.additional-checkout-buttons [data-shopify-buttoncontainer] {
+  border: 2px solid var(--color-yuri-dark) !important;
+  border-radius: 9999px !important;
+  overflow: hidden !important;
+  box-shadow: 2px 2px 0px var(--color-yuri-dark) !important;
+  margin-top: 0.5rem !important;
+}
+
+/* ============================================================
    SHOPIFY POLICY CONTAINER STYLING RULES
    ============================================================ */
 .shopify-policy__container {
