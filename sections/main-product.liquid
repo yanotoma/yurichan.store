@@ -85,10 +85,18 @@
       <!-- Price -->
       <div class="flex items-center gap-3 font-fredoka text-3xl font-bold" id="ProductPrice-{{ section.id }}">
         <span class="text-yuri-dark price-regular">
-          {{ product.selected_or_first_available_variant.price | money }}
+          {% if settings.currency_code_enabled %}
+            {{ product.selected_or_first_available_variant.price | money_with_currency }}
+          {% else %}
+            {{ product.selected_or_first_available_variant.price | money }}
+          {% endif %}
         </span>
         <span class="text-yuri-dark/40 line-through text-xl price-compare {% unless product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}hidden{% endunless %}">
-          {{ product.selected_or_first_available_variant.compare_at_price | money }}
+          {% if settings.currency_code_enabled %}
+            {{ product.selected_or_first_available_variant.compare_at_price | money_with_currency }}
+          {% else %}
+            {{ product.selected_or_first_available_variant.compare_at_price | money }}
+          {% endif %}
         </span>
         <span class="neo-badge bg-yuri-pink text-xs px-2.5 py-1 price-badge {% unless product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}hidden{% endunless %}">
           Sale
@@ -297,8 +305,54 @@
       });
     });
 
-    function formatMoney(cents) {
-      return '$' + (cents / 100).toFixed(2);
+    const moneyFormat = {% if settings.currency_code_enabled %}{{ shop.money_with_currency_format | json }}{% else %}{{ shop.money_format | json }}{% endif %};
+
+    function formatMoney(cents, format) {
+      if (typeof cents === 'string') { cents = cents.replace('.', ''); }
+      let value = '';
+      const placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+      const formatString = format || moneyFormat;
+
+      function defaultOption(opt, def) {
+        return (typeof opt === 'undefined') ? def : opt;
+      }
+
+      function formatWithDelimiters(number, precision, thousands, decimal) {
+        precision = defaultOption(precision, 2);
+        thousands = defaultOption(thousands, ',');
+        decimal   = defaultOption(decimal, '.');
+
+        if (isNaN(number) || number == null) { return 0; }
+
+        number = (number / 100.0).toFixed(precision);
+
+        const parts   = number.split('.'),
+              dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands),
+              centsVal = parts[1] ? (decimal + parts[1]) : '';
+
+        return dollars + centsVal;
+      }
+
+      if (!formatString || !formatString.match(placeholderRegex)) {
+        return '{{ cart.currency.symbol }}' + (cents / 100).toFixed(2);
+      }
+
+      switch(formatString.match(placeholderRegex)[1]) {
+        case 'amount':
+          value = formatWithDelimiters(cents, 2);
+          break;
+        case 'amount_no_decimals':
+          value = formatWithDelimiters(cents, 0);
+          break;
+        case 'amount_with_comma_separator':
+          value = formatWithDelimiters(cents, 2, '.', ',');
+          break;
+        case 'amount_no_decimals_with_comma_separator':
+          value = formatWithDelimiters(cents, 0, '.', ',');
+          break;
+      }
+
+      return formatString.replace(placeholderRegex, value);
     }
 
     function getSelectedOptions() {

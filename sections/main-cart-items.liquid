@@ -24,7 +24,11 @@
                   </p>
                 {% endunless %}
                 <p class="font-fredoka font-bold text-sm text-yuri-dark sm:hidden">
-                  {{ item.final_price | money }}
+                  {% if settings.currency_code_enabled %}
+                    {{ item.final_price | money_with_currency }}
+                  {% else %}
+                    {{ item.final_price | money }}
+                  {% endif %}
                 </p>
               </div>
             </div>
@@ -37,7 +41,11 @@
               </div>
 
               <span class="font-fredoka font-bold text-lg text-yuri-dark hidden sm:inline-block min-w-[5rem] text-right">
-                {{ item.final_line_price | money }}
+                {% if settings.currency_code_enabled %}
+                  {{ item.final_line_price | money_with_currency }}
+                {% else %}
+                  {{ item.final_line_price | money }}
+                {% endif %}
               </span>
 
               <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0" class="text-yuri-dark/40 hover:text-yuri-pink transition-colors p-1" title="Remove">
@@ -54,7 +62,13 @@
       <div class="neo-card p-6 bg-white space-y-4">
         <div class="flex items-center justify-between text-xl font-fredoka font-bold text-yuri-dark">
           <span>Subtotal</span>
-          <span>{{ cart.total_price | money }}</span>
+          <span>
+            {% if settings.currency_code_enabled %}
+              {{ cart.total_price | money_with_currency }}
+            {% else %}
+              {{ cart.total_price | money }}
+            {% endif %}
+          </span>
         </div>
         <p class="font-quicksand text-xs font-medium text-yuri-dark/60 text-right">
           Taxes and shipping calculated at checkout

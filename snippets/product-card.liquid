@@ -42,11 +42,19 @@
   <div class="flex items-center justify-between mt-4 pt-3 border-t-2 border-yuri-dark/10">
     <div class="flex items-baseline gap-1.5 font-fredoka font-bold">
       <span class="text-xl text-yuri-dark">
-        {{ card_product.price | money }}
+        {% if settings.currency_code_enabled %}
+          {{ card_product.price | money_with_currency }}
+        {% else %}
+          {{ card_product.price | money }}
+        {% endif %}
       </span>
       {% if card_product.compare_at_price > card_product.price %}
         <span class="text-sm text-yuri-dark/40 line-through">
-          {{ card_product.compare_at_price | money }}
+          {% if settings.currency_code_enabled %}
+            {{ card_product.compare_at_price | money_with_currency }}
+          {% else %}
+            {{ card_product.compare_at_price | money }}
+          {% endif %}
         </span>
       {% endif %}
     </div>
