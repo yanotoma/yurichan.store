@@ -75,6 +75,70 @@
   -webkit-text-stroke: 1.5px #ffffff;
 }
 
+/* ============================================================
+   SHOPIFY POLICY CONTAINER STYLING RULES
+   ============================================================ */
+.shopify-policy__container {
+  max-width: 56rem;
+  margin-top: 3.5rem !important;
+  margin-bottom: 3.5rem !important;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border: 3px solid var(--color-yuri-dark);
+  border-radius: 1.25rem;
+  box-shadow: 4px 4px 0px var(--color-yuri-dark);
+  font-family: var(--font-outline);
+  color: var(--color-yuri-dark);
+}
+
+/* Remove double shadow/border from nested elements */
+.shopify-policy__container .shopify-policy__body,
+.shopify-policy__body {
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.shopify-policy__title h1, .shopify-policy__container h1 {
+  font-family: var(--font-fredoka) !important;
+  font-weight: 700 !important;
+  font-size: 2.5rem !important;
+  margin-bottom: 2rem !important;
+  text-align: left !important;
+  color: var(--color-yuri-dark) !important;
+}
+
+.shopify-policy__body h2, .shopify-policy__container h2 {
+  font-family: var(--font-fredoka) !important;
+  font-weight: 700 !important;
+  font-size: 1.75rem !important;
+  margin-top: 1.75rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.shopify-policy__body h3, .shopify-policy__container h3 {
+  font-family: var(--font-fredoka) !important;
+  font-weight: 700 !important;
+  font-size: 1.25rem !important;
+  margin-top: 1.25rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.shopify-policy__body p, .shopify-policy__container p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+.shopify-policy__body ul, .shopify-policy__container ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
 body {
   font-family: var(--font-outline);
   background-color: var(--color-yuri-bg);

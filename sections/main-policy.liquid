@@ -1,0 +1,20 @@
+<section class="max-w-4xl mx-auto px-4 py-8 md:py-12">
+  <div class="neo-card p-6 md:p-10 bg-white">
+    <span class="neo-badge text-xs uppercase mb-3">
+      Legal Policy
+    </span>
+    <h1 class="font-fredoka text-3xl md:text-5xl font-extrabold text-yuri-dark tracking-tight mb-6">
+      {{ policy.title }}
+    </h1>
+    <div class="prose max-w-none text-yuri-dark/90 leading-relaxed font-outline text-base md:text-lg space-y-4">
+      {{ policy.body }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Policy",
+  "settings": []
+}
+{% endschema %}

@@ -61,6 +61,10 @@ components:
   page-layout:
     backgroundColor: "{colors.bg-page}"
     textColor: "{colors.primary}"
+  policy-container:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.primary}"
+    rounded: "{rounded.card}"
 ---
 
 ## Overview
@@ -84,7 +88,8 @@ Kawaii Neo-Brutalism meets modern E-commerce functionality. The UI combines play
 ## Layout
 
 - Max container width: `max-w-7xl mx-auto px-4`
-- Product Grids: `grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6`
+- Standard Page Title Header: Left-aligned with top badge (`Legal Policy` / `Information` / `Get in Touch`), `font-fredoka` `text-3xl md:text-5xl font-extrabold text-yuri-dark mb-6`.
+- Container Margins: `margin-top: 3rem` (`py-8 md:py-12`) to prevent hugging the top header border.
 
 ## Shapes
 
@@ -95,10 +100,12 @@ Kawaii Neo-Brutalism meets modern E-commerce functionality. The UI combines play
 
 - **Primary Button (`neo-button`):** Pill-shaped, lilac background, thick black border, hard offset shadow, default padding `0.6rem 1.4rem`.
 - **Card (`neo-card`):** White background, thick black border, rounded `1.25rem` corners, hard offset shadow.
+- **Policy Container (`shopify-policy__container`):** Single top-level `neo-card` wrapper for native Shopify policy pages. **Nested elements must NEVER have shadows or double borders.**
 
 ## Do's and Don'ts
 
 - **Do:** Keep buttons clean without emojis inside button labels or CTA text.
 - **Do:** Use `{{ routes.account_url }}` for Shopify customer authentication links.
+- **Don't:** Add borders or shadows to nested elements inside cards/containers to prevent double-border bugs.
 - **Don't:** Import legacy Dawn CSS stylesheets. Use Tailwind CSS v4 utility classes.
 - **Don't:** Add soft blurred shadows. All shadows must be hard 0-blur offsets (`4px 4px 0px #2b2b2b`).

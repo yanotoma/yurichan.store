@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "hero": {
+      "type": "image-banner",
+      "settings": {
+        "subtitle": "Privacy & Data Rights",
+        "title": "Data Sharing Opt-Out",
+        "description": "We respect your privacy. Use this page to manage your personal data sharing preferences and opt out of third-party data sales or targeted advertising.",
+        "button_label": "Contact Support",
+        "button_link": "/pages/contact"
+      }
+    },
+    "main": {
+      "type": "main-page"
+    },
+    "features": {
+      "type": "pet-features"
+    }
+  },
+  "order": [
+    "hero",
+    "main",
+    "features"
+  ]
+}
