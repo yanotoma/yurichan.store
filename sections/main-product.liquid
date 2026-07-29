@@ -53,7 +53,7 @@
         </div>
       </div>
 
-      <!-- Single Row Scrollable Thumbnail Strip with Vertical Padding to Prevent Shadow Clipping -->
+      <!-- Single Row Scrollable Thumbnail Strip -->
       {% if product.media.size > 1 %}
         <div class="flex items-center gap-3 overflow-x-auto py-2.5 px-1 scrollbar-thin no-scrollbar">
           {% for media in product.media %}
@@ -77,9 +77,6 @@
     <!-- Product Purchasing Info Section (Right: 5 cols on lg) -->
     <div class="lg:col-span-5 flex flex-col gap-6">
       <div>
-        {% if product.vendor %}
-          <span class="neo-badge text-xs uppercase mb-2">{{ product.vendor }}</span>
-        {% endif %}
         <h1 class="font-fredoka text-3xl md:text-4xl font-extrabold text-yuri-dark tracking-tight mt-1">
           {{ product.title }}
         </h1>
