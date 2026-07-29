@@ -314,6 +314,7 @@
     }
 
     function findMatchingVariant(selectedOptions) {
+      if (!selectedOptions || selectedOptions.length === 0) return null;
       return variants.find(variant => {
         return variant.options.every((optionValue, index) => {
           return selectedOptions[index] === optionValue;
@@ -374,6 +375,15 @@
       if (history.replaceState) {
         const newUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?variant=' + variant.id;
         window.history.replaceState({ path: newUrl }, '', newUrl);
+      }
+    }
+
+    // Initialize initial state on load
+    const initialSelectedOptions = getSelectedOptions();
+    if (initialSelectedOptions.length > 0) {
+      const initialVariant = findMatchingVariant(initialSelectedOptions);
+      if (initialVariant) {
+        updateVariantUI(initialVariant);
       }
     }
 
