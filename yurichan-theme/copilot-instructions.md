@@ -1,1 +1,0 @@
-/Users/akira/Documents/Works/yurichan.store/yurichan-theme/AGENTS.md

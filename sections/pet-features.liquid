@@ -1,46 +1,39 @@
-<div class="color-{{ section.settings.color_scheme }} gradient py-12 border-t-3 border-b-3 border-[var(--color-yuri-dark)]">
-  <div class="page-width">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-      <div class="p-6 rounded-2xl bg-white border-3 border-[var(--color-yuri-dark)] shadow-[5px_5px_0px_#2b2b2b] flex flex-col items-center hover:-translate-y-1 transition-transform">
-        <div class="w-14 h-14 rounded-full bg-[var(--color-yuri-yellow)] text-2xl flex items-center justify-center mb-4 border-2 border-[var(--color-yuri-dark)] shadow-[2px_2px_0px_#2b2b2b]">
+<section class="border-t-3 border-b-3 border-yuri-dark py-12 bg-white">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 text-center">
+      
+      <div class="neo-card p-6 bg-white flex flex-col items-center hover:-translate-y-1 transition-transform">
+        <div class="w-14 h-14 rounded-full bg-yuri-yellow text-2xl flex items-center justify-center mb-4 border-2 border-yuri-dark shadow-[2px_2px_0px_#2b2b2b]">
           🚚
         </div>
-        <h3 class="font-extrabold text-xl text-[var(--color-yuri-dark)] font-['Fredoka'] mb-2">Worldwide Shipping</h3>
-        <p class="text-[var(--color-yuri-dark)] text-sm font-['Quicksand'] font-medium">Delivering love and cute pet supplies to furry friends all across the globe.</p>
+        <h3 class="font-bold text-xl text-yuri-dark font-fredoka mb-2">Worldwide Shipping</h3>
+        <p class="text-yuri-dark/80 text-sm font-quicksand font-medium">Delivering love and cute pet supplies to furry friends all across the globe.</p>
       </div>
 
-      <div class="p-6 rounded-2xl bg-[var(--color-yuri-pink)] border-3 border-[var(--color-yuri-dark)] shadow-[5px_5px_0px_#2b2b2b] flex flex-col items-center hover:-translate-y-1 transition-transform">
-        <div class="w-14 h-14 rounded-full bg-white text-2xl flex items-center justify-center mb-4 border-2 border-[var(--color-yuri-dark)] shadow-[2px_2px_0px_#2b2b2b]">
+      <div class="neo-card p-6 bg-yuri-pink/40 flex flex-col items-center hover:-translate-y-1 transition-transform">
+        <div class="w-14 h-14 rounded-full bg-white text-2xl flex items-center justify-center mb-4 border-2 border-yuri-dark shadow-[2px_2px_0px_#2b2b2b]">
           ✨
         </div>
-        <h3 class="font-extrabold text-xl text-[var(--color-yuri-dark)] font-['Fredoka'] mb-2">Premium & Safe Materials</h3>
-        <p class="text-[var(--color-yuri-dark)] text-sm font-['Quicksand'] font-medium">Every item is tested for pet comfort, safety, and utmost durability.</p>
+        <h3 class="font-bold text-xl text-yuri-dark font-fredoka mb-2">Premium & Safe Materials</h3>
+        <p class="text-yuri-dark/80 text-sm font-quicksand font-medium">Every item is tested for pet comfort, safety, and utmost durability.</p>
       </div>
 
-      <div class="p-6 rounded-2xl bg-[var(--color-yuri-mint)] border-3 border-[var(--color-yuri-dark)] shadow-[5px_5px_0px_#2b2b2b] flex flex-col items-center hover:-translate-y-1 transition-transform">
-        <div class="w-14 h-14 rounded-full bg-white text-2xl flex items-center justify-center mb-4 border-2 border-[var(--color-yuri-dark)] shadow-[2px_2px_0px_#2b2b2b]">
+      <div class="neo-card p-6 bg-yuri-mint/40 flex flex-col items-center hover:-translate-y-1 transition-transform">
+        <div class="w-14 h-14 rounded-full bg-white text-2xl flex items-center justify-center mb-4 border-2 border-yuri-dark shadow-[2px_2px_0px_#2b2b2b]">
           💖
         </div>
-        <h3 class="font-extrabold text-xl text-[var(--color-yuri-dark)] font-['Fredoka'] mb-2">100% Happiness Promise</h3>
-        <p class="text-[var(--color-yuri-dark)] text-sm font-['Quicksand'] font-medium">We're here for you and your pets. Satisfaction guaranteed on every order!</p>
+        <h3 class="font-bold text-xl text-yuri-dark font-fredoka mb-2">100% Happiness Promise</h3>
+        <p class="text-yuri-dark/80 text-sm font-quicksand font-medium">We're here for you and your pets. Satisfaction guaranteed on every order!</p>
       </div>
+
     </div>
   </div>
-</div>
+</section>
 
 {% schema %}
 {
   "name": "Pet Features",
-  "tag": "section",
-  "class": "section",
-  "settings": [
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color Scheme",
-      "default": "scheme-1"
-    }
-  ],
+  "settings": [],
   "presets": [
     {
       "name": "Pet Features"
