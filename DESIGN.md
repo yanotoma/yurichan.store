@@ -15,10 +15,12 @@ typography:
     fontFamily: Fredoka
     fontSize: 2.5rem
     fontWeight: 700
+    letterSpacing: "-0.025em"
   heading-lg:
     fontFamily: Fredoka
     fontSize: 1.875rem
     fontWeight: 700
+    letterSpacing: "-0.02em"
   body-md:
     fontFamily: Outfit
     fontSize: 1rem
@@ -69,7 +71,7 @@ components:
 
 ## Overview
 
-Kawaii Neo-Brutalism meets modern E-commerce functionality. The UI combines playful pastel aesthetics with high-contrast structural borders (`3px solid #2b2b2b`) and hard offset drop shadows (`4px 4px 0px #2b2b2b`) without blur.
+Kawaii Neo-Brutalism meets modern E-commerce functionality. The UI combines playful pastel aesthetics with high-contrast structural borders (`3px solid #2b2b2b`), compact typography tracking (`-0.02em`), and hard offset drop shadows (`4px 4px 0px #2b2b2b`) without blur.
 
 ## Colors
 
@@ -82,19 +84,20 @@ Kawaii Neo-Brutalism meets modern E-commerce functionality. The UI combines play
 
 ## Typography
 
-- **Fredoka (`font-fredoka`):** Rounded, bold, playful Google Font used for headings (`h1`-`h6`), product titles, price tags, badges, and CTA button labels.
-- **Outfit (`font-outline`):** Clean, geometric Google Font used for body copy, navigation links, forms, product descriptions, and policies.
+- **Fredoka (`font-fredoka`):** Rounded, bold, playful Google Font used for headings (`h1`-`h6`), product titles, price tags, badges, and CTA button labels. Enforced with tight kerning (`letter-spacing: -0.02em`).
+- **Outfit (`font-outfit` / `font-outline`):** Clean, geometric Google Font used for body copy, navigation links, forms, product descriptions, and policies.
 
 ## Layout
 
 - Max container width: `max-w-7xl mx-auto px-4`
 - Standard Page Title Header: Left-aligned with top badge (`Legal Policy` / `Information` / `Get in Touch`), `font-fredoka` `text-3xl md:text-5xl font-extrabold text-yuri-dark mb-6`.
-- Container Margins: `margin-top: 3rem` (`py-8 md:py-12`) to prevent hugging the top header border.
+- Container Margins: `margin-top: 3.5rem` (`py-8 md:py-12`) to prevent hugging the top header border.
 
-## Shapes
+## Shapes & Text Transforms
 
 - **Cards:** Rounded `1.25rem` (`20px`) corners with `3px solid #2b2b2b` border and `4px 4px 0px #2b2b2b` shadow.
-- **Buttons & Badges:** Full pill-shaped `rounded-full` (`9999px`) with solid black borders.
+- **Buttons & Badges:** Full pill-shaped `rounded-full` (`9999px`) with solid black borders. Badges enforce `uppercase tracking-wider` styling.
+- **Text Stroke Utility (`text-stroke`):** Applies `-webkit-text-stroke: 1.5px #2b2b2b` for hero phrases or impact banners.
 
 ## Components
 
@@ -104,8 +107,10 @@ Kawaii Neo-Brutalism meets modern E-commerce functionality. The UI combines play
 
 ## Do's and Don'ts
 
+- **Do:** Enforce tight kerning (`-0.02em`) on Fredoka titles for compact Neo-Brutalist impact.
+- **Do:** Apply `uppercase` and `tracking-wider` on badges and category chips.
 - **Do:** Keep buttons clean without emojis inside button labels or CTA text.
 - **Do:** Use `{{ routes.account_url }}` for Shopify customer authentication links.
 - **Don't:** Add borders or shadows to nested elements inside cards/containers to prevent double-border bugs.
 - **Don't:** Import legacy Dawn CSS stylesheets. Use Tailwind CSS v4 utility classes.
-- **Don't:** Add soft blurred shadows. All shadows must be hard 0-blur offsets (`4px 4px 0px #2b2b2b`).
+- **Don me:** Add soft blurred shadows. All shadows must be hard 0-blur offsets (`4px 4px 0px #2b2b2b`).

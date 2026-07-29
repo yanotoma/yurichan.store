@@ -10,7 +10,7 @@
 
   --font-fredoka: 'Fredoka', cursive, sans-serif;
   --font-quicksand: 'Quicksand', sans-serif;
-  --font-outline: 'Outfit', sans-serif;
+  --font-outfit: 'Outfit', sans-serif;
 
   --animate-marquee: marquee 25s linear infinite;
 
@@ -42,6 +42,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  letter-spacing: -0.01em;
   
   &:hover {
     transform: translate(-2px, -2px);
@@ -60,11 +61,21 @@
   color: var(--color-yuri-dark);
   font-family: var(--font-fredoka);
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   padding: 0.35rem 0.85rem;
   border-radius: 9999px;
   border: 2px solid var(--color-yuri-dark);
   box-shadow: 2px 2px 0px var(--color-yuri-dark);
   display: inline-block;
+}
+
+@utility font-outfit {
+  font-family: var(--font-outfit);
+}
+
+@utility font-outline {
+  font-family: var(--font-outfit);
 }
 
 @utility text-stroke {
@@ -89,7 +100,7 @@
   border: 3px solid var(--color-yuri-dark);
   border-radius: 1.25rem;
   box-shadow: 4px 4px 0px var(--color-yuri-dark);
-  font-family: var(--font-outline);
+  font-family: var(--font-outfit);
   color: var(--color-yuri-dark);
 }
 
@@ -107,6 +118,7 @@
   font-family: var(--font-fredoka) !important;
   font-weight: 700 !important;
   font-size: 2.5rem !important;
+  letter-spacing: -0.025em !important;
   margin-bottom: 2rem !important;
   text-align: left !important;
   color: var(--color-yuri-dark) !important;
@@ -116,6 +128,7 @@
   font-family: var(--font-fredoka) !important;
   font-weight: 700 !important;
   font-size: 1.75rem !important;
+  letter-spacing: -0.02em !important;
   margin-top: 1.75rem !important;
   margin-bottom: 0.75rem !important;
 }
@@ -124,6 +137,7 @@
   font-family: var(--font-fredoka) !important;
   font-weight: 700 !important;
   font-size: 1.25rem !important;
+  letter-spacing: -0.015em !important;
   margin-top: 1.25rem !important;
   margin-bottom: 0.5rem !important;
 }
@@ -140,7 +154,7 @@
 }
 
 body {
-  font-family: var(--font-outline);
+  font-family: var(--font-outfit);
   background-color: var(--color-yuri-bg);
   color: var(--color-yuri-dark);
 }

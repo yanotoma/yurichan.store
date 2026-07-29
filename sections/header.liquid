@@ -13,20 +13,12 @@
         </svg>
       </button>
 
-      <!-- Logo -->
-      <a href="/" class="flex items-center gap-2 group">
-        {% if settings.logo != blank %}
-          <img src="{{ settings.logo | image_url: width: 100 }}" alt="{{ shop.name }}" class="h-10 w-auto">
-        {% else %}
-          <span class="font-fredoka font-extrabold text-2xl md:text-3xl text-yuri-dark tracking-tight bg-yuri-pink px-3 py-1 rounded-2xl border-2 border-yuri-dark shadow-[2px_2px_0px_#2b2b2b] group-hover:translate-x-[-1px] group-hover:translate-y-[-1px] transition-transform">
-            Yurichan🐾
-          </span>
-        {% endif %}
-      </a>
+      <!-- Reusable Logo Component -->
+      {% render 'logo', size: 'md' %}
     </div>
 
     <!-- Desktop Navigation Links -->
-    <nav class="hidden md:flex items-center gap-6 font-outline font-semibold text-base text-yuri-dark">
+    <nav class="hidden md:flex items-center gap-6 font-outfit font-semibold text-base text-yuri-dark">
       {% for link in section.settings.menu.links %}
         <a href="{{ link.url }}" class="hover:text-yuri-lilac transition-colors {% if link.active %}text-yuri-lilac underline underline-offset-4{% endif %}">
           {{ link.title }}
@@ -64,7 +56,7 @@
   </div>
 
   <!-- Mobile Navigation Drawer -->
-  <div id="MobileMenuDrawer" class="hidden md:hidden bg-white border-t-2 border-yuri-dark p-4 space-y-3 font-outline font-semibold text-lg text-yuri-dark">
+  <div id="MobileMenuDrawer" class="hidden md:hidden bg-white border-t-2 border-yuri-dark p-4 space-y-3 font-outfit font-semibold text-lg text-yuri-dark">
     {% for link in section.settings.menu.links %}
       <a href="{{ link.url }}" class="block py-2 px-3 rounded-xl hover:bg-yuri-lilac/20 transition-colors">
         {{ link.title }}
