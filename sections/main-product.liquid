@@ -171,31 +171,82 @@
 
   </div>
 
-  <!-- Wide Full-Width Description Section Below -->
-  {% if product.description != blank %}
-    <div class="mt-12 md:mt-16">
-      <div class="neo-card p-6 md:p-10 bg-white">
-        <span class="neo-badge text-xs uppercase mb-3">
-          Product Details
-        </span>
-        <h2 class="font-fredoka font-extrabold text-2xl md:text-3xl text-yuri-dark mb-6">
-          Description
-        </h2>
-        <div class="prose max-w-none text-yuri-dark/90 leading-relaxed font-outfit text-base md:text-lg space-y-4">
-          {{ product.description }}
+  <!-- Wide Full-Width Accordion Section Below -->
+  <div class="mt-12 md:mt-16 space-y-4">
+    
+    <!-- Description Accordion Item -->
+    {% if product.description != blank %}
+      <div class="neo-card bg-white overflow-hidden">
+        <button 
+          type="button" 
+          class="accordion-toggle w-full p-6 text-left flex items-center justify-between gap-4 font-fredoka font-extrabold text-xl md:text-2xl text-yuri-dark hover:bg-yuri-bg/50 transition-colors"
+          aria-expanded="true"
+        >
+          <span>Product Description</span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-6 h-6 transform transition-transform duration-300 rotate-180 icon-chevron">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+          </svg>
+        </button>
+        <div class="accordion-content p-6 pt-0 border-t-2 border-yuri-dark/10">
+          <div class="prose max-w-none text-yuri-dark/90 leading-relaxed font-outfit text-base md:text-lg space-y-4 pt-4">
+            {{ product.description }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Judge.me Customer Reviews Accordion Item -->
+    <div class="neo-card bg-white overflow-hidden">
+      <button 
+        type="button" 
+        class="accordion-toggle w-full p-6 text-left flex items-center justify-between gap-4 font-fredoka font-extrabold text-xl md:text-2xl text-yuri-dark hover:bg-yuri-bg/50 transition-colors"
+        aria-expanded="false"
+      >
+        <span>Customer Reviews 🐾</span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-6 h-6 transform transition-transform duration-300 icon-chevron">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+        </svg>
+      </button>
+      <div class="accordion-content p-6 pt-0 border-t-2 border-yuri-dark/10 hidden">
+        <div class="pt-4 font-outfit">
+          <!-- Official Judge.me Review Widget Integration -->
+          <div id="judgeme_product_reviews" class="jdgm-widget jdgm-review-widget" data-id="{{ product.id }}">
+            {{ product.metafields.judgeme.widget }}
+          </div>
         </div>
       </div>
     </div>
-  {% endif %}
+
+  </div>
 </section>
 
-<!-- Variant Selection & Carousel Controller Script -->
+<!-- Variant Selection, Carousel & Accordion Script -->
 <script>
   (function() {
     const variants = {{ product.variants | json }};
     const sectionId = "{{ section.id }}";
     const sectionContainer = document.getElementById(`ProductSection-${sectionId}`);
     if (!sectionContainer) return;
+
+    // Accordion functionality
+    const accordionToggles = sectionContainer.querySelectorAll('.accordion-toggle');
+    accordionToggles.forEach(toggle => {
+      toggle.addEventListener('click', function() {
+        const content = this.nextElementSibling;
+        const icon = this.querySelector('.icon-chevron');
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+        if (isExpanded) {
+          content.classList.add('hidden');
+          this.setAttribute('aria-expanded', 'false');
+          if (icon) icon.classList.remove('rotate-180');
+        } else {
+          content.classList.remove('hidden');
+          this.setAttribute('aria-expanded', 'true');
+          if (icon) icon.classList.add('rotate-180');
+        }
+      });
+    });
 
     const variantIdInput = document.getElementById(`VariantId-${sectionId}`);
     const addToCartBtn = document.getElementById(`AddToCartBtn-${sectionId}`);
