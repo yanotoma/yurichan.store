@@ -102,9 +102,11 @@
         {% unless product.has_only_default_variant %}
           <div class="flex flex-col gap-5">
             {% for option in product.options_with_values %}
-              <div class="flex flex-col gap-2 option-group" data-option-index="{{ forloop.index0 }}">
+              {% assign option_index = forloop.index0 %}
+              {% assign selected_value_for_option = product.selected_or_first_available_variant.options[option_index] %}
+              <div class="flex flex-col gap-2 option-group" data-option-index="{{ option_index }}">
                 <label class="font-fredoka font-semibold text-sm text-yuri-dark uppercase tracking-wider">
-                  {{ option.name }}: <span class="selected-value text-yuri-dark/70 font-normal">{{ option.selected_value }}</span>
+                  {{ option.name }}: <span class="selected-value text-yuri-dark/70 font-normal">{{ selected_value_for_option }}</span>
                 </label>
                 <div class="flex flex-wrap gap-2.5">
                   {% for value in option.values %}
@@ -113,9 +115,9 @@
                         type="radio" 
                         name="options[{{ option.name }}]" 
                         value="{{ value | escape }}"
-                        {% if option.selected_value == value %}checked{% endif %}
+                        {% if selected_value_for_option == value %}checked{% endif %}
                         class="peer sr-only variant-option-input"
-                        data-option-index="{{ forloop.parentloop.index0 }}"
+                        data-option-index="{{ option_index }}"
                       >
                       <span class="inline-block font-fredoka font-semibold text-sm px-4 py-2 rounded-full border-2 border-yuri-dark shadow-[2px_2px_0px_#2b2b2b] bg-white text-yuri-dark transition-all peer-checked:bg-yuri-lilac peer-checked:translate-x-[-1px] peer-checked:translate-y-[-1px] peer-checked:shadow-[4px_4px_0px_#2b2b2b] hover:bg-yuri-lilac/20">
                         {{ value }}
@@ -378,13 +380,27 @@
       }
     }
 
-    // Initialize initial state on load
-    const initialSelectedOptions = getSelectedOptions();
-    if (initialSelectedOptions.length > 0) {
-      const initialVariant = findMatchingVariant(initialSelectedOptions);
-      if (initialVariant) {
-        updateVariantUI(initialVariant);
-      }
+    // Initialize initial state on load: check URL parameter or fallback to first available
+    const urlParams = new URLSearchParams(window.location.search);
+    const variantIdFromUrl = urlParams.get('variant');
+    let targetVariant = null;
+
+    if (variantIdFromUrl) {
+      targetVariant = variants.find(v => String(v.id) === String(variantIdFromUrl));
+    }
+
+    if (!targetVariant) {
+      const initialSelectedOptions = getSelectedOptions();
+      targetVariant = findMatchingVariant(initialSelectedOptions);
+    }
+
+    if (targetVariant) {
+      // Sync radio buttons with target variant options
+      targetVariant.options.forEach((optValue, idx) => {
+        const radioToSelect = sectionContainer.querySelector(`.option-group[data-option-index="${idx}"] input[value="${CSS.escape(optValue)}"]`);
+        if (radioToSelect) radioToSelect.checked = true;
+      });
+      updateVariantUI(targetVariant);
     }
 
     const radioInputs = sectionContainer.querySelectorAll('.variant-option-input');
