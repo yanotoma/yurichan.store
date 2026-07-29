@@ -53,13 +53,13 @@
         </div>
       </div>
 
-      <!-- Thumbnail Indicators -->
+      <!-- Single Row Scrollable Thumbnail Strip -->
       {% if product.media.size > 1 %}
-        <div class="grid grid-cols-5 sm:grid-cols-6 gap-3">
+        <div class="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-thin no-scrollbar">
           {% for media in product.media %}
             <button 
               type="button"
-              class="carousel-thumb neo-card p-1 cursor-pointer transition-transform hover:scale-105 focus:outline-none {% if forloop.first %}ring-3 ring-yuri-dark bg-yuri-lilac/30{% endif %}"
+              class="carousel-thumb neo-card p-1 shrink-0 w-16 sm:w-20 cursor-pointer transition-transform hover:scale-105 focus:outline-none {% if forloop.first %}ring-3 ring-yuri-dark bg-yuri-lilac/30{% endif %}"
               data-thumb-index="{{ forloop.index0 }}"
             >
               <img 
@@ -230,6 +230,7 @@
       thumbs.forEach((thumb, i) => {
         if (i === currentIndex) {
           thumb.classList.add('ring-3', 'ring-yuri-dark', 'bg-yuri-lilac/30');
+          thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         } else {
           thumb.classList.remove('ring-3', 'ring-yuri-dark', 'bg-yuri-lilac/30');
         }
@@ -302,7 +303,6 @@
         }
       }
 
-      // If variant has featured image, switch carousel slide to it
       if (variant.featured_image && variant.featured_image.src) {
         const matchingSlideIndex = Array.from(slides).findIndex(slide => {
           const img = slide.querySelector('img');
