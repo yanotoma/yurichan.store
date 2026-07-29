@@ -1,4 +1,4 @@
-<section class="max-w-7xl mx-auto px-4 py-8 md:py-12">
+<section class="max-w-7xl mx-auto px-4 py-8 md:py-12" id="ProductSection-{{ section.id }}">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-start">
     
     <!-- Gallery Section -->
@@ -51,28 +51,28 @@
       </div>
 
       <!-- Price -->
-      <div class="flex items-center gap-3 font-fredoka text-2xl md:text-3xl font-bold">
-        <span class="text-yuri-dark">
+      <div class="flex items-center gap-3 font-fredoka text-2xl md:text-3xl font-bold" id="ProductPrice-{{ section.id }}">
+        <span class="text-yuri-dark price-regular">
           {{ product.selected_or_first_available_variant.price | money }}
         </span>
-        {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
-          <span class="text-yuri-dark/40 line-through text-lg">
-            {{ product.selected_or_first_available_variant.compare_at_price | money }}
-          </span>
-          <span class="neo-badge bg-yuri-pink text-xs px-2 py-0.5">Sale</span>
-        {% endif %}
+        <span class="text-yuri-dark/40 line-through text-lg price-compare {% unless product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}hidden{% endunless %}">
+          {{ product.selected_or_first_available_variant.compare_at_price | money }}
+        </span>
+        <span class="neo-badge bg-yuri-pink text-xs px-2 py-0.5 price-badge {% unless product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}hidden{% endunless %}">
+          Sale
+        </span>
       </div>
 
       <!-- Form -->
       {% form 'product', product, id: 'AddToCartForm', class: 'flex flex-col gap-6 mt-2' %}
-        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <input type="hidden" name="id" id="VariantId-{{ section.id }}" value="{{ product.selected_or_first_available_variant.id }}">
 
         {% unless product.has_only_default_variant %}
           <div class="flex flex-col gap-4">
             {% for option in product.options_with_values %}
-              <div class="flex flex-col gap-2">
+              <div class="flex flex-col gap-2 option-group" data-option-index="{{ forloop.index0 }}">
                 <label class="font-fredoka font-semibold text-sm text-yuri-dark uppercase tracking-wider">
-                  {{ option.name }}
+                  {{ option.name }}: <span class="selected-value text-yuri-dark/70 font-normal">{{ option.selected_value }}</span>
                 </label>
                 <div class="flex flex-wrap gap-2">
                   {% for value in option.values %}
@@ -82,7 +82,8 @@
                         name="options[{{ option.name }}]" 
                         value="{{ value | escape }}"
                         {% if option.selected_value == value %}checked{% endif %}
-                        class="peer sr-only"
+                        class="peer sr-only variant-option-input"
+                        data-option-index="{{ forloop.parentloop.index0 }}"
                       >
                       <span class="inline-block font-fredoka font-semibold text-sm px-4 py-2 rounded-full border-2 border-yuri-dark shadow-[2px_2px_0px_#2b2b2b] bg-white text-yuri-dark transition-all peer-checked:bg-yuri-lilac peer-checked:translate-x-[-1px] peer-checked:translate-y-[-1px] peer-checked:shadow-[4px_4px_0px_#2b2b2b] hover:bg-yuri-lilac/20">
                         {{ value }}
@@ -120,14 +121,17 @@
           <button 
             type="submit" 
             name="add"
-            class="neo-button flex-1 py-3 text-lg font-bold w-full"
-            {% unless product.available %}disabled{% endunless %}
+            id="AddToCartBtn-{{ section.id }}"
+            class="neo-button flex-1 py-3 text-lg font-bold w-full disabled:opacity-50 disabled:cursor-not-allowed"
+            {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
           >
-            {% if product.available %}
-              Add to Cart
-            {% else %}
-              Sold Out
-            {% endif %}
+            <span class="btn-text">
+              {% if product.selected_or_first_available_variant.available %}
+                Add to Cart
+              {% else %}
+                Sold Out
+              {% endif %}
+            </span>
           </button>
         </div>
       {% endform %}
@@ -145,6 +149,113 @@
     </div>
   </div>
 </section>
+
+<!-- Variant Selection Script -->
+<script>
+  (function() {
+    const variants = {{ product.variants | json }};
+    const sectionId = "{{ section.id }}";
+    const sectionContainer = document.getElementById(`ProductSection-${sectionId}`);
+    if (!sectionContainer) return;
+
+    const variantIdInput = document.getElementById(`VariantId-${sectionId}`);
+    const addToCartBtn = document.getElementById(`AddToCartBtn-${sectionId}`);
+    const priceContainer = document.getElementById(`ProductPrice-${sectionId}`);
+    const featuredImage = document.getElementById(`ProductFeaturedImage-${sectionId}`);
+
+    function formatMoney(cents) {
+      return '$' + (cents / 100).toFixed(2);
+    }
+
+    function getSelectedOptions() {
+      const selected = [];
+      const optionGroups = sectionContainer.querySelectorAll('.option-group');
+      optionGroups.forEach(group => {
+        const checkedRadio = group.querySelector('input[type="radio"]:checked');
+        if (checkedRadio) {
+          selected.push(checkedRadio.value);
+          const labelSpan = group.querySelector('.selected-value');
+          if (labelSpan) labelSpan.textContent = checkedRadio.value;
+        }
+      });
+      return selected;
+    }
+
+    function findMatchingVariant(selectedOptions) {
+      return variants.find(variant => {
+        return variant.options.every((optionValue, index) => {
+          return selectedOptions[index] === optionValue;
+        });
+      });
+    }
+
+    function updateVariantUI(variant) {
+      if (!variant) {
+        if (addToCartBtn) {
+          addToCartBtn.disabled = true;
+          addToCartBtn.querySelector('.btn-text').textContent = 'Unavailable';
+        }
+        return;
+      }
+
+      // Update Variant ID
+      if (variantIdInput) variantIdInput.value = variant.id;
+
+      // Update Price
+      if (priceContainer) {
+        const regularPriceSpan = priceContainer.querySelector('.price-regular');
+        const comparePriceSpan = priceContainer.querySelector('.price-compare');
+        const saleBadgeSpan = priceContainer.querySelector('.price-badge');
+
+        if (regularPriceSpan) regularPriceSpan.textContent = formatMoney(variant.price);
+
+        if (variant.compare_at_price > variant.price) {
+          if (comparePriceSpan) {
+            comparePriceSpan.textContent = formatMoney(variant.compare_at_price);
+            comparePriceSpan.classList.remove('hidden');
+          }
+          if (saleBadgeSpan) saleBadgeSpan.classList.remove('hidden');
+        } else {
+          if (comparePriceSpan) comparePriceSpan.classList.add('hidden');
+          if (saleBadgeSpan) saleBadgeSpan.classList.add('hidden');
+        }
+      }
+
+      // Update Image if variant has featured image
+      if (variant.featured_image && variant.featured_image.src && featuredImage) {
+        featuredImage.src = variant.featured_image.src;
+      }
+
+      // Update Add to Cart Button
+      if (addToCartBtn) {
+        if (variant.available) {
+          addToCartBtn.disabled = false;
+          addToCartBtn.querySelector('.btn-text').textContent = 'Add to Cart';
+        } else {
+          addToCartBtn.disabled = true;
+          addToCartBtn.querySelector('.btn-text').textContent = 'Sold Out';
+        }
+      }
+
+      // Update URL search params without reload
+      if (history.replaceState) {
+        const newUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?variant=' + variant.id;
+        window.history.replaceState({ path: newUrl }, '', newUrl);
+      }
+    }
+
+    // Attach Event Listeners to Radio Inputs
+    const radioInputs = sectionContainer.querySelectorAll('.variant-option-input');
+    radioInputs.forEach(radio => {
+      radio.addEventListener('change', function() {
+        const selectedOptions = getSelectedOptions();
+        const matchingVariant = findMatchingVariant(selectedOptions);
+        updateVariantUI(matchingVariant);
+      });
+    });
+
+  })();
+</script>
 
 {% schema %}
 {
