@@ -1,50 +1,13 @@
 {
   "sections": {
     "image_banner": {
-      "type": "image-banner",
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Cute Essentials for Your Pets 🐾",
-            "heading_size": "h0"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "Inspired by Yuri • Loving & Premium Pet Care Products Worldwide",
-            "text_style": "subtitle"
-          }
-        },
-        "button": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Explore Pet Collection",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": false,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "text",
-        "button"
-      ],
+      "type": "temporary-hero",
       "settings": {
-        "image_overlay_opacity": 30,
-        "image_height": "medium",
-        "desktop_content_position": "middle-center",
-        "show_text_box": true,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-1",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "subtitle": "New Collection",
+        "title": "Cute Essentials for Your Pets 🐾",
+        "description": "Inspired by Yuri • Loving & Premium Pet Care Products. Discover our curated collection of cute accessories, clothing, and toys designed for your happy pets!",
+        "button_label": "Explore Pet Collection",
+        "button_link": "shopify:\/\/collections\/all"
       }
     },
     "featured_collection": {

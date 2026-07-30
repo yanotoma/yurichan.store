@@ -32,12 +32,14 @@
     {{ content_for_header }}
   </head>
 
-  <body class="bg-yuri-bg text-yuri-dark font-outline min-h-screen flex flex-col antialiased">
+  <body class="bg-yuri-bg text-yuri-dark font-outline min-h-screen antialiased">
     <a class="sr-only focus:not-sr-only focus:p-4 focus:bg-yuri-pink focus:text-yuri-dark" href="#MainContent">
       Skip to content
     </a>
 
-    {% sections 'header-group' %}
+    <div class="sticky top-0 z-[9999] relative" style="position: sticky; top: 0; z-index: 9999;">
+      {% sections 'header-group' %}
+    </div>
 
     <main id="MainContent" class="grow" role="main" tabindex="-1">
       {{ content_for_layout }}
