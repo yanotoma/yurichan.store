@@ -1,4 +1,5 @@
 <section class="max-w-7xl mx-auto px-4 py-8 md:py-12">
+  <!-- Header & Description -->
   <div class="mb-8">
     <span class="neo-badge text-xs uppercase mb-2">
       Collection
@@ -11,31 +12,264 @@
         {{ collection.description }}
       </div>
     {% endif %}
+
+    <!-- Extract Categories from Collection -->
+    {% assign categories_list = "" %}
+    {% for product in collection.products %}
+      {% if product.category %}
+        {% unless categories_list contains product.category.name %}
+          {% if categories_list != "" %}{% assign categories_list = categories_list | append: "|||" %}{% endif %}
+          {% assign clean_id = product.category.id | split: '/' | last %}
+          {% assign cat_entry = product.category.name | append: ":::" | append: clean_id %}
+          {% assign categories_list = categories_list | append: cat_entry %}
+        {% endunless %}
+      {% endif %}
+    {% endfor %}
+    {% assign categories_array = categories_list | split: "|||" %}
+
+    <!-- Filter Control Bar -->
+    <script>
+      console.log("LIQUID DEBUG - canonical_url:", {{ canonical_url | json }});
+      console.log("LIQUID DEBUG - request.path:", {{ request.path | json }});
+    </script>
+    <div class="mt-6 pt-4 border-t-2 border-yuri-dark/10 flex flex-wrap items-center gap-3">
+      <button 
+        type="button" 
+        id="open-filter-drawer" 
+        class="neo-button bg-yuri-lilac text-yuri-dark font-fredoka font-bold text-sm py-2 px-4 rounded-xl flex items-center gap-2 hover:bg-yuri-pink transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 18H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 12h11.25" />
+        </svg>
+        <span>Filters</span>
+      </button>
+
+      <!-- Active Filters Display -->
+      <div id="active-filters-container" class="flex flex-wrap items-center gap-2">
+        <span class="font-fredoka text-xs font-bold text-yuri-dark/60 uppercase tracking-wider">Active:</span>
+        <span id="active-filter-pill" class="inline-flex items-center gap-1.5 bg-yuri-pink text-yuri-dark font-fredoka font-bold text-xs py-1.5 px-3 rounded-full border-2 border-yuri-dark shadow-[2px_2px_0px_#2b2b2b]">
+          <span id="active-filter-label">All Categories</span>
+          <a href="{{ collection.url }}" id="clear-filter-link" class="hover:opacity-75 focus:outline-none hidden" title="Clear filter">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-3.5 h-3.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </a>
+        </span>
+      </div>
+    </div>
   </div>
 
-  {% paginate collection.products by 12 %}
+  <!-- Left Drawer Overlay for Filters -->
+  <div id="filter-drawer-backdrop" class="fixed top-0 left-0 right-0 bottom-0 w-screen h-screen bg-yuri-dark/40 backdrop-blur-sm transition-opacity duration-300 opacity-0 pointer-events-none hidden" style="z-index: 999999;">
+    <div 
+      id="filter-drawer" 
+      class="fixed top-0 left-0 bottom-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl p-6 flex flex-col justify-between transition-transform duration-300 -translate-x-full overflow-y-auto" style="z-index: 1000000; border-right: 4px solid #2b2b2b;"
+    >
+      <div>
+        <!-- Drawer Header -->
+        <div class="flex items-center justify-between border-b-2 border-yuri-dark/10 pb-4 mb-6">
+          <h2 class="font-fredoka font-extrabold text-2xl text-yuri-dark">Filter Products</h2>
+          <button 
+            type="button" 
+            id="close-filter-drawer" 
+            class="neo-button p-2 rounded-full hover:bg-yuri-pink transition-colors"
+            aria-label="Close filters"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Categories List inside Drawer -->
+        <div>
+          <h3 class="font-fredoka font-bold text-sm text-yuri-dark/60 uppercase tracking-wider mb-3">Categories</h3>
+          <div class="flex flex-col gap-2" id="drawer-category-list">
+            <a 
+              href="{{ collection.url }}" 
+              data-cat-id="all"
+              class="drawer-cat-link flex items-center justify-between p-3 rounded-xl border-2 border-yuri-dark font-fredoka font-bold text-sm bg-yuri-pink text-yuri-dark shadow-[2px_2px_0px_#2b2b2b] transition-all text-left" 
+            >
+              <span>All Categories</span>
+            </a>
+            {% for cat_entry in categories_array %}
+              {% assign parts = cat_entry | split: ":::" %}
+              {% assign cat_name = parts[0] %}
+              {% assign cat_id = parts[1] %}
+
+              <a 
+                href="{{ collection.url }}?filter.v.category_id={{ cat_id }}" 
+                data-cat-id="{{ cat_id }}"
+                data-cat-name="{{ cat_name | escape }}"
+                class="drawer-cat-link flex items-center justify-between p-3 rounded-xl border-2 bg-yuri-bg text-yuri-dark border-yuri-dark/20 hover:bg-yuri-lilac/30 font-fredoka font-bold text-sm transition-all text-left" 
+              >
+                <span>{{ cat_name }}</span>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% paginate collection.products by 50 %}
     {% if collection.products.size > 0 %}
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {% for product in collection.products %}
-          {% render 'product-card', card_product: product %}
+          <div class="product-item-wrapper" data-product-category="{{ product.category.name | default: '' | escape }}" data-category-id="{{ product.category.id | split: '/' | last }}">
+            {% render 'product-card', card_product: product %}
+          </div>
         {% endfor %}
       </div>
 
       {% if paginate.pages > 1 %}
-        <div class="flex items-center justify-center gap-2 mt-12 font-fredoka font-bold">
-          {% if paginate.previous %}
-            <a href="{{ paginate.previous.url }}" class="neo-button text-sm py-2 px-4">← Prev</a>
-          {% endif %}
-
-          <span class="neo-card py-2 px-4 text-sm text-yuri-dark">
-            Page {{ paginate.current_page }} of {{ paginate.pages }}
-          </span>
-
+        <div id="pagination-container" class="flex flex-col items-center justify-center gap-3 mt-12 font-fredoka font-bold">
           {% if paginate.next %}
-            <a href="{{ paginate.next.url }}" class="neo-button text-sm py-2 px-4">Next →</a>
+            <a id="load-more-btn" href="{{ paginate.next.url }}" class="neo-button text-base py-3.5 px-8">
+              Load More Products 🐾
+            </a>
+            <div id="load-more-loading" class="hidden text-yuri-dark/60 text-sm animate-pulse">
+              Loading sweet accessories...
+            </div>
           {% endif %}
+
+          <!-- Hidden standard pagination links for SEO bots -->
+          <div class="sr-only hidden" aria-hidden="true">
+            {% if paginate.previous %}
+              <a href="{{ paginate.previous.url }}">Previous</a>
+            {% endif %}
+            <span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+            {% if paginate.next %}
+              <a href="{{ paginate.next.url }}">Next</a>
+            {% endif %}
+          </div>
         </div>
       {% endif %}
+
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          // Sync URL search param with active filters and product display
+          const urlParams = new URLSearchParams(window.location.search);
+          const activeCatId = urlParams.get('filter.v.category_id');
+
+          const activeFilterLabel = document.getElementById('active-filter-label');
+          const clearFilterLink = document.getElementById('clear-filter-link');
+          const drawerCatLinks = document.querySelectorAll('.drawer-cat-link');
+          const productWrappers = document.querySelectorAll('#product-grid .product-item-wrapper');
+
+          if (activeCatId) {
+            let activeName = 'Category';
+            drawerCatLinks.forEach(link => {
+              const catId = link.getAttribute('data-cat-id');
+              if (catId === activeCatId) {
+                activeName = link.getAttribute('data-cat-name') || link.querySelector('span').textContent;
+                link.classList.remove('bg-yuri-bg', 'border-yuri-dark/20');
+                link.classList.add('bg-yuri-pink', 'border-yuri-dark', 'shadow-[2px_2px_0px_#2b2b2b]');
+              } else {
+                link.classList.remove('bg-yuri-pink', 'border-yuri-dark', 'shadow-[2px_2px_0px_#2b2b2b]');
+                link.classList.add('bg-yuri-bg', 'border-yuri-dark/20');
+              }
+            });
+
+            if (activeFilterLabel) activeFilterLabel.textContent = activeName;
+            if (clearFilterLink) clearFilterLink.classList.remove('hidden');
+
+            // Apply filter visibility to grid items
+            productWrappers.forEach(wrapper => {
+              const pCatId = wrapper.getAttribute('data-category-id');
+              const pCatName = wrapper.getAttribute('data-product-category');
+              if (pCatId === activeCatId || pCatName === activeName) {
+                wrapper.style.display = '';
+              } else {
+                wrapper.style.display = 'none';
+              }
+            });
+          }
+
+          // Drawer toggle logic
+          const openDrawerBtn = document.getElementById('open-filter-drawer');
+          const closeDrawerBtn = document.getElementById('close-filter-drawer');
+          const backdrop = document.getElementById('filter-drawer-backdrop');
+          const drawer = document.getElementById('filter-drawer');
+
+          function openDrawer() {
+            if (backdrop.parentElement !== document.body) {
+              document.body.appendChild(backdrop);
+            }
+            backdrop.classList.remove('hidden');
+            void backdrop.offsetWidth;
+            backdrop.classList.remove('opacity-0', 'pointer-events-none');
+            drawer.classList.remove('-translate-x-full');
+            document.body.classList.add('overflow-hidden');
+          }
+
+          function closeDrawer() {
+            backdrop.classList.add('opacity-0', 'pointer-events-none');
+            drawer.classList.add('-translate-x-full');
+            document.body.classList.remove('overflow-hidden');
+            setTimeout(() => {
+              backdrop.classList.add('hidden');
+            }, 300);
+          }
+
+          if (openDrawerBtn) openDrawerBtn.addEventListener('click', openDrawer);
+          if (closeDrawerBtn) closeDrawerBtn.addEventListener('click', closeDrawer);
+          if (backdrop) {
+            backdrop.addEventListener('click', (e) => {
+              if (e.target === backdrop) closeDrawer();
+            });
+          }
+
+          // Load More Logic
+          const loadMoreBtn = document.getElementById('load-more-btn');
+          const productGrid = document.getElementById('product-grid');
+          const paginationContainer = document.getElementById('pagination-container');
+          const loadingSpinner = document.getElementById('load-more-loading');
+
+          if (!loadMoreBtn || !productGrid) return;
+
+          loadMoreBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const nextUrl = loadMoreBtn.getAttribute('href');
+            if (!nextUrl) return;
+
+            loadMoreBtn.classList.add('hidden');
+            if (loadingSpinner) loadingSpinner.classList.remove('hidden');
+
+            fetch(nextUrl)
+              .then(response => response.text())
+              .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                const newProducts = doc.querySelectorAll('#product-grid > *');
+                newProducts.forEach(product => {
+                  productGrid.appendChild(product);
+                });
+
+                const activeItem = document.querySelector('.drawer-cat-item.active');
+                if (activeItem) {
+                  activeItem.click();
+                }
+
+                const newLoadMoreBtn = doc.getElementById('load-more-btn');
+                if (newLoadMoreBtn) {
+                  loadMoreBtn.setAttribute('href', newLoadMoreBtn.getAttribute('href'));
+                  loadMoreBtn.classList.remove('hidden');
+                } else {
+                  paginationContainer.remove();
+                }
+              })
+              .catch(error => {
+                console.error('Error loading more products:', error);
+                loadMoreBtn.classList.remove('hidden');
+              })
+              .finally(() => {
+                if (loadingSpinner) loadingSpinner.classList.add('hidden');
+              });
+          });
+        });
+      </script>
     {% else %}
       <div class="neo-card p-12 text-center bg-white space-y-4 max-w-md mx-auto my-12">
         <span class="text-4xl">😿</span>

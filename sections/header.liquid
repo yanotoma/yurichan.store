@@ -1,4 +1,4 @@
-<header class="bg-white border-b-3 border-yuri-dark sticky top-0 z-40 shadow-[0_4px_0_#2b2b2b]">
+<header class="bg-white border-b-3 border-yuri-dark shadow-[0_4px_0_#2b2b2b]">
   <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
     <div class="flex items-center gap-3">
       <!-- Mobile Drawer Toggle Button -->
@@ -49,11 +49,11 @@
         {% endif %}
       {% endif %}
 
-      <a href="/search" class="p-2 text-yuri-dark hover:text-yuri-lilac transition-colors" aria-label="Search">
+      <button type="button" id="open-search-modal" class="p-2 text-yuri-dark hover:text-yuri-lilac transition-colors focus:outline-none" aria-label="Search">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
         </svg>
-      </a>
+      </button>
 
       <a href="/cart" class="neo-button py-1.5 px-3 text-sm flex items-center gap-2">
         <span class="font-fredoka font-bold hidden sm:inline">Cart</span>
@@ -70,21 +70,112 @@
       <a href="{{ link.url }}" class="block py-2 px-3 rounded-xl hover:bg-yuri-lilac/20 transition-colors">
         {{ link.title }}
       </a>
-    {% else %}
-      <a href="/" class="block py-2 px-3 rounded-xl hover:bg-yuri-lilac/20 transition-colors">Home</a>
-      <a href="/collections/all" class="block py-2 px-3 rounded-xl hover:bg-yuri-lilac/20 transition-colors">Shop All</a>
-      <a href="/pages/about" class="block py-2 px-3 rounded-xl hover:bg-yuri-lilac/20 transition-colors">About Us</a>
     {% endfor %}
-    {% if shop.customer_accounts_enabled %}
-      <a href="{{ routes.account_url }}" class="block py-2 px-3 rounded-xl bg-yuri-lilac/10 hover:bg-yuri-lilac/30 transition-colors text-base font-bold">
-        {% if customer %}
-          Hi, {{ customer.first_name | default: 'My Account' }}
-        {% else %}
-          Sign In / Register
-        {% endif %}
-      </a>
-    {% endif %}
   </div>
+
+  <!-- Search Modal Overlay -->
+  <div 
+    id="search-modal-backdrop" 
+    class="fixed top-0 left-0 right-0 bottom-0 w-screen h-screen flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none hidden p-4" 
+    style="z-index: 999999; background-color: rgba(43, 43, 43, 0.6); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);"
+  >
+    <div 
+      id="search-modal-container"
+      class="w-full max-w-lg bg-white p-6 md:p-8 flex flex-col gap-6 transform transition-all duration-300 scale-95 relative"
+      style="z-index: 1000000; border: 4px solid #2b2b2b; box-shadow: 10px 10px 0px #2b2b2b; border-radius: 1.5rem;"
+    >
+      <!-- Title & Close Button Header -->
+      <div class="flex items-center justify-between">
+        <h2 class="font-fredoka font-extrabold text-2xl md:text-3xl text-yuri-dark">
+          Search Products
+        </h2>
+        <button 
+          type="button" 
+          id="close-search-modal" 
+          class="p-2 rounded-full border-2 border-yuri-dark bg-yuri-bg hover:bg-yuri-pink text-yuri-dark transition-colors cursor-pointer"
+          aria-label="Close search"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Form -->
+      <form action="{{ routes.search_url }}" method="get" class="flex flex-col gap-6">
+        <div class="relative w-full">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 text-yuri-dark/60 absolute pointer-events-none z-10" style="left: 1.25rem; top: 50%; transform: translateY(-50%);">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+          </svg>
+          <input 
+            type="search" 
+            name="q" 
+            id="search-modal-input" 
+            placeholder="Search cute accessories, beds, toys..." 
+            class="w-full bg-yuri-bg font-fredoka font-semibold text-yuri-dark text-base placeholder-yuri-dark/40 focus:outline-none focus:bg-white transition-all border-2 border-yuri-dark rounded-xl py-3.5 pl-14 pr-4"
+            autocomplete="off"
+          >
+        </div>
+        <button 
+          type="submit" 
+          class="w-full bg-yuri-pink hover:bg-yuri-lilac text-yuri-dark font-fredoka font-extrabold py-3.5 text-center text-lg rounded-xl transition-all border-2 border-yuri-dark"
+        >
+          Search Store
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Search Modal Logic
+      const openSearchBtn = document.getElementById('open-search-modal');
+      const closeSearchBtn = document.getElementById('close-search-modal');
+      const searchBackdrop = document.getElementById('search-modal-backdrop');
+      const searchContainer = document.getElementById('search-modal-container');
+      const searchInput = document.getElementById('search-modal-input');
+
+      function openSearchModal() {
+        if (searchBackdrop.parentElement !== document.body) {
+          document.body.appendChild(searchBackdrop);
+        }
+        searchBackdrop.classList.remove('hidden');
+        void searchBackdrop.offsetWidth;
+        searchBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+        searchContainer.classList.remove('scale-95');
+        searchContainer.classList.add('scale-100');
+        document.body.classList.add('overflow-hidden');
+        setTimeout(() => {
+          if (searchInput) searchInput.focus();
+        }, 150);
+      }
+
+      function closeSearchModal() {
+        searchBackdrop.classList.add('opacity-0', 'pointer-events-none');
+        searchContainer.classList.remove('scale-100');
+        searchContainer.classList.add('scale-95');
+        document.body.classList.remove('overflow-hidden');
+        setTimeout(() => {
+          searchBackdrop.classList.add('hidden');
+        }, 300);
+      }
+
+      if (openSearchBtn) openSearchBtn.addEventListener('click', openSearchModal);
+      if (closeSearchBtn) closeSearchBtn.addEventListener('click', closeSearchModal);
+      if (searchBackdrop) {
+        searchBackdrop.addEventListener('click', (e) => {
+          if (e.target === searchBackdrop) closeSearchModal();
+        });
+      }
+
+      // Handle esc key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !searchBackdrop.classList.contains('hidden')) {
+          closeSearchModal();
+        }
+      });
+    });
+  </script>
 </header>
 
 {% schema %}

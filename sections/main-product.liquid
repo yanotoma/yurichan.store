@@ -1,4 +1,20 @@
 <section class="max-w-7xl mx-auto px-4 py-8 md:py-12" id="ProductSection-{{ section.id }}">
+  <!-- Breadcrumbs -->
+  <nav class="flex items-center gap-2 text-xs md:text-sm font-fredoka font-medium text-yuri-dark/70 mb-6 flex-wrap" aria-label="Breadcrumb">
+    {% if product.category %}
+      {% if product.category.ancestors != blank %}
+        {% for ancestor in product.category.ancestors %}
+          {% unless forloop.first %}<span>&gt;</span>{% endunless %}
+          <span class="hover:text-yuri-dark transition-colors">{{ ancestor.name }}</span>
+        {% endfor %}
+        <span>&gt;</span>
+      {% endif %}
+      <span class="text-yuri-dark font-bold">{{ product.category.name }}</span>
+    {% elsif product.collections.size > 0 %}
+      <a href="{{ product.collections.first.url }}" class="hover:text-yuri-dark transition-colors font-bold">{{ product.collections.first.title }}</a>
+    {% endif %}
+  </nav>
+
   <!-- Top Grid: Gallery Carousel (Left) & Purchasing Info (Right) -->
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
     
@@ -77,6 +93,11 @@
     <!-- Product Purchasing Info Section (Right: 5 cols on lg) -->
     <div class="lg:col-span-5 flex flex-col gap-6">
       <div>
+        {% if product.category %}
+          <span class="neo-badge bg-yuri-lilac text-xs mb-2">
+            {{ product.category.name }}
+          </span>
+        {% endif %}
         <h1 class="font-fredoka text-3xl md:text-4xl font-extrabold text-yuri-dark tracking-tight mt-1">
           {{ product.title }}
         </h1>

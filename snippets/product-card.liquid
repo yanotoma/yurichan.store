@@ -30,6 +30,11 @@
 
     <!-- Info -->
     <div>
+      {% if card_product.category %}
+        <span class="inline-block text-[11px] font-fredoka font-bold text-yuri-dark/60 uppercase tracking-wider mb-0.5">
+          {{ card_product.category.name }}
+        </span>
+      {% endif %}
       <h3 class="font-fredoka font-bold text-lg text-yuri-dark line-clamp-2 mt-0.5">
         <a href="{{ card_product.url }}" class="hover:underline">
           {{ card_product.title }}
