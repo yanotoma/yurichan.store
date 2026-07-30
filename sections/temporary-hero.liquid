@@ -1,0 +1,71 @@
+<section class="max-w-7xl mx-auto px-4 py-8 md:py-16">
+  <div class="neo-card overflow-hidden bg-gradient-to-br from-yuri-pink/20 via-white to-yuri-lilac/20 flex flex-col items-center justify-center p-8 md:p-16 text-center gap-6 min-h-[350px]">
+    
+    <!-- Content -->
+    <div class="max-w-2xl space-y-6 z-10 flex flex-col items-center">
+      {% if section.settings.subtitle != blank %}
+        <span class="neo-badge text-xs uppercase">
+          {{ section.settings.subtitle | escape }}
+        </span>
+      {% endif %}
+
+      <h1 class="font-fredoka text-4xl md:text-6xl font-extrabold text-yuri-dark leading-tight">
+        {{ section.settings.title | escape }}
+      </h1>
+
+      <p class="font-quicksand text-base md:text-xl font-semibold text-yuri-dark/80 max-w-lg leading-relaxed">
+        {{ section.settings.description | escape }}
+      </p>
+
+      {% if section.settings.button_label != blank %}
+        <div class="pt-4">
+          <a href="{{ section.settings.button_link | default: '/collections/all' }}" class="neo-button text-base font-bold py-3 px-8">
+            {{ section.settings.button_label | escape }}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Temporary Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Próximamente"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "¡Cosas muy tiernas están en camino!"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Estamos preparando la mejor colección de accesorios, prendas y juguetes diseñados con la máxima ternura y cuidado para tus mascotas. ¡Mantente atento!"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Ver Colección Actual"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Temporary Hero"
+    }
+  ]
+}
+{% endschema %}
