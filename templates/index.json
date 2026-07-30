@@ -1,7 +1,7 @@
 {
   "sections": {
     "image_banner": {
-      "type": "temporary-hero",
+      "type": "image-banner",
       "settings": {
         "subtitle": "New Collection",
         "title": "Cute Essentials for Your Pets 🐾",
