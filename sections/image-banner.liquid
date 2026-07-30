@@ -37,9 +37,135 @@
           >
         </div>
       {% else %}
-        <div class="neo-card p-4 bg-white max-w-md w-full aspect-square flex items-center justify-center font-fredoka font-bold text-yuri-dark/40 text-xl">
-          Hero Banner Image
+        <!-- Product Carousel Fallback (5 Products) -->
+        {% assign banner_products = collections['all'].products %}
+        <div class="neo-card p-3 bg-white max-w-md w-full relative group" id="hero-product-carousel">
+          <div class="relative w-full aspect-square bg-yuri-bg rounded-xl overflow-hidden">
+            {% assign counter = 0 %}
+            {% for prod in banner_products %}
+              {% if prod.featured_media and counter < 5 %}
+                <a 
+                  href="{{ prod.url }}" 
+                  class="hero-slide absolute inset-0 w-full h-full transition-opacity duration-500 {% if counter != 0 %}opacity-0 pointer-events-none{% else %}opacity-100 z-10{% endif %}"
+                  data-index="{{ counter }}"
+                >
+                  <img 
+                    src="{{ prod.featured_media | image_url: width: 800 }}" 
+                    alt="{{ prod.title | escape }}"
+                    class="w-full h-full object-cover"
+                    loading="{% if counter == 0 %}eager{% else %}lazy{% endif %}"
+                  >
+                  <div class="absolute bottom-3 left-3 right-3 bg-white/90 backdrop-blur-sm border-2 border-yuri-dark rounded-xl p-2.5 flex items-center justify-between shadow-[2px_2px_0px_#2b2b2b]">
+                    <span class="font-fredoka font-bold text-sm text-yuri-dark truncate max-w-[70%]">{{ prod.title }}</span>
+                    <span class="font-fredoka font-bold text-xs bg-yuri-yellow text-yuri-dark px-2 py-0.5 rounded-full border border-yuri-dark">{{ prod.price | money }}</span>
+                  </div>
+                </a>
+                {% assign counter = counter | plus: 1 %}
+              {% endif %}
+            {% endfor %}
+
+            <!-- Prev / Next Buttons -->
+            <button 
+              type="button" 
+              id="hero-carousel-prev" 
+              class="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white border-2 border-yuri-dark text-yuri-dark font-bold text-sm flex items-center justify-center shadow-[2px_2px_0px_#2b2b2b] hover:bg-yuri-pink transition-colors cursor-pointer"
+              aria-label="Previous Slide"
+            >&larr;</button>
+            <button 
+              type="button" 
+              id="hero-carousel-next" 
+              class="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white border-2 border-yuri-dark text-yuri-dark font-bold text-sm flex items-center justify-center shadow-[2px_2px_0px_#2b2b2b] hover:bg-yuri-pink transition-colors cursor-pointer"
+              aria-label="Next Slide"
+            >&rarr;</button>
+
+            <!-- Dots Indicator -->
+            <div class="absolute top-3 right-3 z-20 flex gap-1.5 bg-yuri-dark/60 backdrop-blur-sm px-2.5 py-1 rounded-full border border-yuri-dark">
+              {% for i in (1..counter) %}
+                <button 
+                  type="button" 
+                  class="hero-dot w-2 h-2 rounded-full border border-white transition-all {% if forloop.first %}bg-yuri-yellow w-4{% else %}bg-white/60{% endif %}"
+                  data-dot-index="{{ forloop.index0 }}"
+                  aria-label="Slide {{ forloop.index }}"
+                ></button>
+              {% endfor %}
+            </div>
+          </div>
         </div>
+
+        <script>
+          document.addEventListener('DOMContentLoaded', () => {
+            const carousel = document.getElementById('hero-product-carousel');
+            if (!carousel) return;
+
+            const slides = carousel.querySelectorAll('.hero-slide');
+            const dots = carousel.querySelectorAll('.hero-dot');
+            const prevBtn = document.getElementById('hero-carousel-prev');
+            const nextBtn = document.getElementById('hero-carousel-next');
+
+            if (!slides.length) return;
+
+            let currentIndex = 0;
+            let intervalId = null;
+
+            function goToSlide(index) {
+              slides.forEach((slide, i) => {
+                if (i === index) {
+                  slide.classList.remove('opacity-0', 'pointer-events-none');
+                  slide.classList.add('opacity-100', 'z-10');
+                } else {
+                  slide.classList.add('opacity-0', 'pointer-events-none');
+                  slide.classList.remove('opacity-100', 'z-10');
+                }
+              });
+
+              dots.forEach((dot, i) => {
+                if (i === index) {
+                  dot.classList.add('bg-yuri-yellow', 'w-4');
+                  dot.classList.remove('bg-white/60');
+                } else {
+                  dot.classList.remove('bg-yuri-yellow', 'w-4');
+                  dot.classList.add('bg-white/60');
+                }
+              });
+
+              currentIndex = index;
+            }
+
+            function nextSlide() {
+              const next = (currentIndex + 1) % slides.length;
+              goToSlide(next);
+            }
+
+            function prevSlide() {
+              const prev = (currentIndex - 1 + slides.length) % slides.length;
+              goToSlide(prev);
+            }
+
+            if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetTimer(); });
+            if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetTimer(); });
+
+            dots.forEach((dot, idx) => {
+              dot.addEventListener('click', () => {
+                goToSlide(idx);
+                resetTimer();
+              });
+            });
+
+            function startTimer() {
+              intervalId = setInterval(nextSlide, 3500);
+            }
+
+            function resetTimer() {
+              clearInterval(intervalId);
+              startTimer();
+            }
+
+            startTimer();
+
+            carousel.addEventListener('mouseenter', () => clearInterval(intervalId));
+            carousel.addEventListener('mouseleave', () => startTimer());
+          });
+        </script>
       {% endif %}
     </div>
   </div>
