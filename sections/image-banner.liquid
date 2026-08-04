@@ -37,12 +37,26 @@
           >
         </div>
       {% else %}
-        <!-- Product Carousel Fallback (5 Products) -->
-        {% assign banner_products = collections['all'].products %}
-        <div class="neo-card p-3 bg-white max-w-md w-full relative group" id="hero-product-carousel">
-          <div class="relative w-full aspect-square bg-yuri-bg rounded-xl overflow-hidden">
+        <!-- Product Carousel (5 Random Products from 'frontpage' collection) -->
+        {% assign f_collection = collections['frontpage'] %}
+        {% if f_collection == blank or f_collection.products.size == 0 %}
+          {% assign f_collection = collections['all'] %}
+        {% endif %}
+        
+        {% assign total_prods = f_collection.products.size %}
+        {% if total_prods > 5 %}
+          {% assign seed = 'now' | date: '%S' | plus: 0 %}
+          {% assign start_offset = seed | modulo: total_prods %}
+        {% else %}
+          {% assign start_offset = 0 %}
+        {% endif %}
+
+        <div class="neo-card p-3 bg-white max-w-md w-full relative group shadow-[6px_6px_0px_#2b2b2b]" id="hero-product-carousel">
+          <div class="relative w-full aspect-square bg-yuri-bg rounded-xl overflow-hidden border-2 border-yuri-dark">
             {% assign counter = 0 %}
-            {% for prod in banner_products %}
+            
+            {% comment %} First Pass: from random start_offset to end {% endcomment %}
+            {% for prod in f_collection.products offset: start_offset %}
               {% if prod.featured_media and counter < 5 %}
                 <a 
                   href="{{ prod.url }}" 
@@ -63,6 +77,31 @@
                 {% assign counter = counter | plus: 1 %}
               {% endif %}
             {% endfor %}
+
+            {% comment %} Second Pass: fill up to 5 if needed from start {% endcomment %}
+            {% if counter < 5 %}
+              {% for prod in f_collection.products limit: start_offset %}
+                {% if prod.featured_media and counter < 5 %}
+                  <a 
+                    href="{{ prod.url }}" 
+                    class="hero-slide absolute inset-0 w-full h-full transition-opacity duration-500 {% if counter != 0 %}opacity-0 pointer-events-none{% else %}opacity-100 z-10{% endif %}"
+                    data-index="{{ counter }}"
+                  >
+                    <img 
+                      src="{{ prod.featured_media | image_url: width: 800 }}" 
+                      alt="{{ prod.title | escape }}"
+                      class="w-full h-full object-cover"
+                      loading="lazy"
+                    >
+                    <div class="absolute bottom-3 left-3 right-3 bg-white/90 backdrop-blur-sm border-2 border-yuri-dark rounded-xl p-2.5 flex items-center justify-between shadow-[2px_2px_0px_#2b2b2b]">
+                      <span class="font-fredoka font-bold text-sm text-yuri-dark truncate max-w-[70%]">{{ prod.title }}</span>
+                      <span class="font-fredoka font-bold text-xs bg-yuri-yellow text-yuri-dark px-2 py-0.5 rounded-full border border-yuri-dark">{{ prod.price | money }}</span>
+                    </div>
+                  </a>
+                  {% assign counter = counter | plus: 1 %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
 
             <!-- Prev / Next Buttons (Circular Kawaii Buttons) -->
             <button 

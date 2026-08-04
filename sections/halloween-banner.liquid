@@ -1,0 +1,234 @@
+{% doc %}
+Renders a spooky Kawaii Halloween Banner for promoting the Pet Halloween collection.
+@example
+{% section 'halloween-banner' %}
+{% enddoc %}
+
+<section class="max-w-7xl mx-auto px-4 py-8">
+  <div class="neo-card overflow-hidden bg-gradient-to-br from-[#1d0e2e] via-[#2e114d] to-[#12071f] relative flex flex-col md:flex-row items-center p-8 md:p-12 gap-8 border-4 border-[#ff7a00] shadow-[8px_8px_0px_#2b2b2b]">
+    <!-- Halloween details / background drawings -->
+    <div class="absolute inset-0 opacity-15 pointer-events-none bg-[radial-gradient(#ff7a00_1.5px,transparent_1.5px)] [background-size:24px_24px]"></div>
+    
+    <div class="w-full md:w-1/2 space-y-6 z-10 text-white">
+      <span class="inline-flex items-center gap-2 text-xs md:text-sm font-fredoka font-bold text-white uppercase tracking-wider px-6 py-2.5 rounded-full border-2 border-[#ff7a00] bg-[#ff7a00] shadow-[3px_3px_0px_#2b2b2b]">
+        {{ section.settings.subtitle | default: "Limited Spooky Edition 🎃" }}
+      </span>
+
+      <h2 class="font-fredoka text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight text-stroke-white" style="-webkit-text-stroke: 1.5px #ff7a00;">
+        {{ section.settings.title | default: "Spooky Cute Season is Here!" }}
+      </h2>
+
+      <p class="font-quicksand text-base md:text-lg font-semibold text-gray-200 max-w-lg">
+        {{ section.settings.description | default: "Dress up your furry friends in our adorable, limited-edition Halloween gear. Boo-tiful capes, cozy pumpkin beds, and spooky squeaky toys await!" }}
+      </p>
+
+      <div class="flex flex-wrap gap-4 pt-2">
+        <a 
+          href="{{ section.settings.button_link | default: '/collections/pet-halloween' }}" 
+          class="neo-button bg-[#ff7a00] text-[#12071f] hover:bg-[#ff9500] hover:text-[#12071f] text-base font-bold py-3 px-6 shadow-[4px_4px_0px_#ffffff] hover:shadow-[6px_6px_0px_#ffffff] border-3 border-white transition-all rounded-full flex items-center gap-2"
+        >
+          <span>{{ section.settings.button_label | default: "Explore Pet Halloween" }}</span>
+          <span class="text-xl">🎃</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="w-full md:w-1/2 flex justify-center z-10">
+      {% if section.settings.image != blank %}
+        <div class="neo-card p-2 bg-[#12071f] border-3 border-white max-w-md w-full shadow-[6px_6px_0px_#ff7a00]">
+          <img 
+            src="{{ section.settings.image | image_url: width: 800 }}" 
+            alt="{{ section.settings.title | escape }}"
+            class="w-full h-auto object-cover rounded-xl"
+            loading="eager"
+          >
+        </div>
+      {% else %}
+        <!-- Spooky Product Carousel Slider (5 Products) -->
+        {% assign spooky_products = collections['pet-halloween'].products %}
+        <div class="neo-card p-3 bg-[#12071f] border-3 border-white max-w-md w-full relative group shadow-[6px_6px_0px_#ff7a00]" id="spooky-product-carousel">
+          <div class="relative w-full aspect-square bg-[#1d0e2e] rounded-xl overflow-hidden border-2 border-[#ff7a00]">
+            {% assign counter = 0 %}
+            {% for prod in spooky_products %}
+              {% if prod.featured_media and counter < 5 %}
+                <a 
+                  href="{{ prod.url }}" 
+                  class="spooky-slide absolute inset-0 w-full h-full transition-opacity duration-500 {% if counter != 0 %}opacity-0 pointer-events-none{% else %}opacity-100 z-10{% endif %}"
+                  data-index="{{ counter }}"
+                >
+                  <img 
+                    src="{{ prod.featured_media | image_url: width: 800 }}" 
+                    alt="{{ prod.title | escape }}"
+                    class="w-full h-full object-cover"
+                    loading="{% if counter == 0 %}eager{% else %}lazy{% endif %}"
+                  >
+                  <div class="absolute bottom-3 left-3 right-3 bg-[#12071f]/90 backdrop-blur-sm border-2 border-[#ff7a00] rounded-xl p-2.5 flex items-center justify-between shadow-[2px_2px_0px_#ff7a00]">
+                    <span class="font-fredoka font-bold text-sm text-white truncate max-w-[70%]">{{ prod.title }}</span>
+                    <span class="font-fredoka font-bold text-xs bg-[#ff7a00] text-[#12071f] px-2 py-0.5 rounded-full border border-white">{{ prod.price | money }}</span>
+                  </div>
+                </a>
+                {% assign counter = counter | plus: 1 %}
+              {% endif %}
+            {% endfor %}
+
+            <!-- Prev / Next Buttons (Circular Spooky Kawaii Buttons) -->
+            <button 
+              type="button" 
+              id="spooky-carousel-prev" 
+              class="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#12071f] border-2 border-[#ff7a00] text-white flex items-center justify-center shadow-[2px_2px_0px_#ff7a00] hover:bg-[#ff7a00] hover:text-[#12071f] hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              aria-label="Previous Slide"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+              </svg>
+            </button>
+            <button 
+              type="button" 
+              id="spooky-carousel-next" 
+              class="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#12071f] border-2 border-[#ff7a00] text-white flex items-center justify-center shadow-[2px_2px_0px_#ff7a00] hover:bg-[#ff7a00] hover:text-[#12071f] hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              aria-label="Next Slide"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+              </svg>
+            </button>
+
+            <!-- Dots Indicator -->
+            <div class="absolute top-3 right-3 z-20 flex gap-1.5 bg-[#12071f]/80 backdrop-blur-sm px-2.5 py-1 rounded-full border border-[#ff7a00]">
+              {% for i in (1..counter) %}
+                <button 
+                  type="button" 
+                  class="spooky-dot w-2 h-2 rounded-full border border-white transition-all {% if forloop.first %}bg-[#ff7a00] w-4{% else %}bg-white/60{% endif %}"
+                  data-dot-index="{{ forloop.index0 }}"
+                  aria-label="Slide {{ forloop.index }}"
+                ></button>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <script>
+          document.addEventListener('DOMContentLoaded', () => {
+            const carousel = document.getElementById('spooky-product-carousel');
+            if (!carousel) return;
+
+            const slides = carousel.querySelectorAll('.spooky-slide');
+            const dots = carousel.querySelectorAll('.spooky-dot');
+            const prevBtn = document.getElementById('spooky-carousel-prev');
+            const nextBtn = document.getElementById('spooky-carousel-next');
+
+            if (!slides.length) return;
+
+            let currentIndex = 0;
+            let intervalId = null;
+
+            function goToSlide(index) {
+              slides.forEach((slide, i) => {
+                if (i === index) {
+                  slide.classList.remove('opacity-0', 'pointer-events-none');
+                  slide.classList.add('opacity-100', 'z-10');
+                } else {
+                  slide.classList.add('opacity-0', 'pointer-events-none');
+                  slide.classList.remove('opacity-100', 'z-10');
+                }
+              });
+
+              dots.forEach((dot, i) => {
+                if (i === index) {
+                  dot.classList.add('bg-[#ff7a00]', 'w-4');
+                  dot.classList.remove('bg-white/60');
+                } else {
+                  dot.classList.remove('bg-[#ff7a00]', 'w-4');
+                  dot.classList.add('bg-white/60');
+                }
+              });
+
+              currentIndex = index;
+            }
+
+            function nextSlide() {
+              const next = (currentIndex + 1) % slides.length;
+              goToSlide(next);
+            }
+
+            function prevSlide() {
+              const prev = (currentIndex - 1 + slides.length) % slides.length;
+              goToSlide(prev);
+            }
+
+            if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetTimer(); });
+            if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetTimer(); });
+
+            dots.forEach((dot, idx) => {
+              dot.addEventListener('click', () => {
+                goToSlide(idx);
+                resetTimer();
+              });
+            });
+
+            function startTimer() {
+              intervalId = setInterval(nextSlide, 3500);
+            }
+
+            function resetTimer() {
+              clearInterval(intervalId);
+              startTimer();
+            }
+
+            startTimer();
+
+            carousel.addEventListener('mouseenter', () => clearInterval(intervalId));
+            carousel.addEventListener('mouseleave', () => startTimer());
+          });
+        </script>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Halloween Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Limited Spooky Edition 🎃"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Spooky Cute Season is Here!"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Dress up your furry friends in our adorable, limited-edition Halloween gear. Boo-tiful capes, cozy pumpkin beds, and spooky squeaky toys await!"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Explore Pet Halloween"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Halloween Banner"
+    }
+  ]
+}
+{% endschema %}

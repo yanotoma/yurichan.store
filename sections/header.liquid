@@ -19,6 +19,12 @@
 
     <!-- Desktop Navigation Links -->
     <nav class="hidden md:flex items-center gap-6 font-outfit font-semibold text-base text-yuri-dark">
+      <a 
+        href="/collections/pet-halloween" 
+        class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#ff7a00] text-white border-2 border-yuri-dark rounded-full font-fredoka font-bold text-xs shadow-[2px_2px_0px_#2b2b2b] hover:bg-[#ff9500] hover:shadow-[4px_4px_0px_#2b2b2b] transition-all transform hover:-translate-y-0.5"
+      >
+        <span>🎃 Pet Halloween</span>
+      </a>
       {% for link in section.settings.menu.links %}
         <a href="{{ link.url }}" class="hover:text-yuri-lilac transition-colors {% if link.active %}text-yuri-lilac underline underline-offset-4{% endif %}">
           {{ link.title }}
@@ -66,10 +72,21 @@
 
   <!-- Mobile Navigation Drawer -->
   <div id="MobileMenuDrawer" class="hidden md:hidden bg-white border-t-2 border-yuri-dark p-4 space-y-3 font-outfit font-semibold text-lg text-yuri-dark">
+    <a 
+      href="/collections/pet-halloween" 
+      class="flex items-center justify-between py-2.5 px-4 rounded-xl bg-[#ff7a00] text-white border-2 border-yuri-dark font-fredoka font-bold text-base shadow-[3px_3px_0px_#2b2b2b]"
+    >
+      <span>🎃 Pet Halloween</span>
+      <span class="text-xs bg-white text-[#ff7a00] px-2 py-0.5 rounded-full font-extrabold">NEW</span>
+    </a>
     {% for link in section.settings.menu.links %}
       <a href="{{ link.url }}" class="block py-2 px-3 rounded-xl hover:bg-yuri-lilac/20 transition-colors">
         {{ link.title }}
       </a>
+    {% else %}
+      <a href="/" class="block py-2 px-3 rounded-xl hover:bg-yuri-lilac/20 transition-colors">Home</a>
+      <a href="/collections/all" class="block py-2 px-3 rounded-xl hover:bg-yuri-lilac/20 transition-colors">Shop All</a>
+      <a href="/pages/about" class="block py-2 px-3 rounded-xl hover:bg-yuri-lilac/20 transition-colors">About Us</a>
     {% endfor %}
   </div>
 

@@ -1,14 +1,19 @@
+{% assign is_halloween = false %}
+{% if collection.handle == 'pet-halloween' %}
+  {% assign is_halloween = true %}
+{% endif %}
+
 <section class="max-w-7xl mx-auto px-4 py-8 md:py-12">
   <!-- Header & Description -->
   <div class="mb-8">
-    <span class="neo-badge text-xs uppercase mb-2">
+    <span class="neo-badge {% if is_halloween %}bg-[#ff7a00] text-white border-white{% endif %} text-xs uppercase mb-2">
       Collection
     </span>
-    <h1 class="font-fredoka text-3xl md:text-5xl font-extrabold text-yuri-dark tracking-tight mt-1">
+    <h1 class="font-fredoka text-3xl md:text-5xl font-extrabold {% if is_halloween %}text-white text-stroke-white{% else %}text-yuri-dark{% endif %} tracking-tight mt-1" {% if is_halloween %}style="-webkit-text-stroke: 1px #ff7a00;"{% endif %}>
       {{ collection.title }}
     </h1>
     {% if collection.description != blank %}
-      <div class="font-quicksand font-medium text-yuri-dark/80 max-w-2xl mt-3 text-base">
+      <div class="font-quicksand font-medium {% if is_halloween %}text-gray-300{% else %}text-yuri-dark/80{% endif %} max-w-2xl mt-3 text-base">
         {{ collection.description }}
       </div>
     {% endif %}
@@ -32,11 +37,11 @@
       console.log("LIQUID DEBUG - canonical_url:", {{ canonical_url | json }});
       console.log("LIQUID DEBUG - request.path:", {{ request.path | json }});
     </script>
-    <div class="mt-6 pt-4 border-t-2 border-yuri-dark/10 flex flex-wrap items-center gap-3">
+    <div class="mt-6 pt-4 border-t-2 {% if is_halloween %}border-white/10{% else %}border-yuri-dark/10{% endif %} flex flex-wrap items-center gap-3">
       <button 
         type="button" 
         id="open-filter-drawer" 
-        class="neo-button bg-yuri-lilac text-yuri-dark font-fredoka font-bold text-sm py-2 px-4 rounded-xl flex items-center gap-2 hover:bg-yuri-pink transition-colors"
+        class="neo-button {% if is_halloween %}bg-[#ff7a00] hover:bg-[#ff9500] text-[#12071f] border-white shadow-[4px_4px_0px_#ffffff] hover:shadow-[6px_6px_0px_#ffffff]{% else %}bg-yuri-lilac text-yuri-dark hover:bg-yuri-pink{% endif %} font-fredoka font-bold text-sm py-2 px-4 rounded-xl flex items-center gap-2 transition-colors"
       >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
           <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 18H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 12h11.25" />
@@ -46,8 +51,8 @@
 
       <!-- Active Filters Display -->
       <div id="active-filters-container" class="flex flex-wrap items-center gap-2">
-        <span class="font-fredoka text-xs font-bold text-yuri-dark/60 uppercase tracking-wider">Active:</span>
-        <span id="active-filter-pill" class="inline-flex items-center gap-1.5 bg-yuri-pink text-yuri-dark font-fredoka font-bold text-xs py-1.5 px-3 rounded-full border-2 border-yuri-dark shadow-[2px_2px_0px_#2b2b2b]">
+        <span class="font-fredoka text-xs font-bold {% if is_halloween %}text-gray-400{% else %}text-yuri-dark/60{% endif %} uppercase tracking-wider">Active:</span>
+        <span id="active-filter-pill" class="inline-flex items-center gap-1.5 {% if is_halloween %}bg-[#ff7a00] text-[#12071f] border-white shadow-[2px_2px_0px_#ffffff]{% else %}bg-yuri-pink text-yuri-dark border-yuri-dark shadow-[2px_2px_0px_#2b2b2b]{% endif %} font-fredoka font-bold text-xs py-1.5 px-3 rounded-full border-2">
           <span id="active-filter-label">All Categories</span>
           <a href="{{ collection.url }}" id="clear-filter-link" class="hover:opacity-75 focus:outline-none hidden" title="Clear filter">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-3.5 h-3.5">
@@ -63,16 +68,16 @@
   <div id="filter-drawer-backdrop" class="fixed top-0 left-0 right-0 bottom-0 w-screen h-screen bg-yuri-dark/40 backdrop-blur-sm transition-opacity duration-300 opacity-0 pointer-events-none hidden" style="z-index: 999999;">
     <div 
       id="filter-drawer" 
-      class="fixed top-0 left-0 bottom-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl p-6 flex flex-col justify-between transition-transform duration-300 -translate-x-full overflow-y-auto" style="z-index: 1000000; border-right: 4px solid #2b2b2b;"
+      class="fixed top-0 left-0 bottom-0 h-full w-80 max-w-[85vw] {% if is_halloween %}bg-[#18181b] text-white border-r-[#ff7a00]{% else %}bg-white border-r-[#2b2b2b]{% endif %} shadow-2xl p-6 flex flex-col justify-between transition-transform duration-300 -translate-x-full overflow-y-auto" style="z-index: 1000000; border-right-width: 4px; border-right-style: solid;"
     >
       <div>
         <!-- Drawer Header -->
-        <div class="flex items-center justify-between border-b-2 border-yuri-dark/10 pb-4 mb-6">
-          <h2 class="font-fredoka font-extrabold text-2xl text-yuri-dark">Filter Products</h2>
+        <div class="flex items-center justify-between border-b-2 {% if is_halloween %}border-white/10{% else %}border-yuri-dark/10{% endif %} pb-4 mb-6">
+          <h2 class="font-fredoka font-extrabold text-2xl {% if is_halloween %}text-white{% else %}text-yuri-dark{% endif %}">Filter Products</h2>
           <button 
             type="button" 
             id="close-filter-drawer" 
-            class="neo-button p-2 rounded-full hover:bg-yuri-pink transition-colors"
+            class="neo-button {% if is_halloween %}bg-[#ff7a00] hover:bg-[#ff9500] text-[#12071f] border-white shadow-[2px_2px_0px_#ffffff]{% else %}hover:bg-yuri-pink{% endif %} p-2 rounded-full transition-colors"
             aria-label="Close filters"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-5 h-5">
@@ -83,12 +88,12 @@
 
         <!-- Categories List inside Drawer -->
         <div>
-          <h3 class="font-fredoka font-bold text-sm text-yuri-dark/60 uppercase tracking-wider mb-3">Categories</h3>
+          <h3 class="font-fredoka font-bold text-sm {% if is_halloween %}text-white/60{% else %}text-yuri-dark/60{% endif %} uppercase tracking-wider mb-3">Categories</h3>
           <div class="flex flex-col gap-2" id="drawer-category-list">
             <a 
               href="{{ collection.url }}" 
               data-cat-id="all"
-              class="drawer-cat-link flex items-center justify-between p-3 rounded-xl border-2 border-yuri-dark font-fredoka font-bold text-sm bg-yuri-pink text-yuri-dark shadow-[2px_2px_0px_#2b2b2b] transition-all text-left" 
+              class="drawer-cat-link flex items-center justify-between p-3 rounded-xl border-2 {% if is_halloween %}border-white bg-[#ff7a00] text-[#12071f] shadow-[2px_2px_0px_#ffffff]{% else %}border-yuri-dark bg-yuri-pink text-yuri-dark shadow-[2px_2px_0px_#2b2b2b]{% endif %} font-fredoka font-bold text-sm transition-all text-left" 
             >
               <span>All Categories</span>
             </a>
@@ -101,7 +106,7 @@
                 href="{{ collection.url }}?filter.v.category_id={{ cat_id }}" 
                 data-cat-id="{{ cat_id }}"
                 data-cat-name="{{ cat_name | escape }}"
-                class="drawer-cat-link flex items-center justify-between p-3 rounded-xl border-2 bg-yuri-bg text-yuri-dark border-yuri-dark/20 hover:bg-yuri-lilac/30 font-fredoka font-bold text-sm transition-all text-left" 
+                class="drawer-cat-link flex items-center justify-between p-3 rounded-xl border-2 {% if is_halloween %}bg-[#1d0e2e] text-white border-white/20 hover:bg-[#ff7a00]/30{% else %}bg-yuri-bg text-yuri-dark border-yuri-dark/20 hover:bg-yuri-lilac/30{% endif %} font-fredoka font-bold text-sm transition-all text-left" 
               >
                 <span>{{ cat_name }}</span>
               </a>
@@ -125,10 +130,10 @@
       {% if paginate.pages > 1 %}
         <div id="pagination-container" class="flex flex-col items-center justify-center gap-3 mt-12 font-fredoka font-bold">
           {% if paginate.next %}
-            <a id="load-more-btn" href="{{ paginate.next.url }}" class="neo-button text-base py-3.5 px-8">
+            <a id="load-more-btn" href="{{ paginate.next.url }}" class="neo-button {% if is_halloween %}bg-[#ff7a00] hover:bg-[#ff9500] text-[#12071f] border-white shadow-[4px_4px_0px_#ffffff] hover:shadow-[6px_6px_0px_#ffffff]{% endif %} text-base py-3.5 px-8">
               Load More Products 🐾
             </a>
-            <div id="load-more-loading" class="hidden text-yuri-dark/60 text-sm animate-pulse">
+            <div id="load-more-loading" class="hidden {% if is_halloween %}text-white/60{% else %}text-yuri-dark/60{% endif %} text-sm animate-pulse">
               Loading sweet accessories...
             </div>
           {% endif %}
@@ -157,17 +162,29 @@
           const drawerCatLinks = document.querySelectorAll('.drawer-cat-link');
           const productWrappers = document.querySelectorAll('#product-grid .product-item-wrapper');
 
+          const isHalloween = {{ is_halloween | json }};
+
           if (activeCatId) {
             let activeName = 'Category';
             drawerCatLinks.forEach(link => {
               const catId = link.getAttribute('data-cat-id');
               if (catId === activeCatId) {
                 activeName = link.getAttribute('data-cat-name') || link.querySelector('span').textContent;
-                link.classList.remove('bg-yuri-bg', 'border-yuri-dark/20');
-                link.classList.add('bg-yuri-pink', 'border-yuri-dark', 'shadow-[2px_2px_0px_#2b2b2b]');
+                if (isHalloween) {
+                  link.classList.remove('bg-[#1d0e2e]', 'text-white', 'border-white/20');
+                  link.classList.add('bg-[#ff7a00]', 'text-[#12071f]', 'border-white', 'shadow-[2px_2px_0px_#ffffff]');
+                } else {
+                  link.classList.remove('bg-yuri-bg', 'border-yuri-dark/20');
+                  link.classList.add('bg-yuri-pink', 'border-yuri-dark', 'shadow-[2px_2px_0px_#2b2b2b]');
+                }
               } else {
-                link.classList.remove('bg-yuri-pink', 'border-yuri-dark', 'shadow-[2px_2px_0px_#2b2b2b]');
-                link.classList.add('bg-yuri-bg', 'border-yuri-dark/20');
+                if (isHalloween) {
+                  link.classList.remove('bg-[#ff7a00]', 'text-[#12071f]', 'border-white', 'shadow-[2px_2px_0px_#ffffff]');
+                  link.classList.add('bg-[#1d0e2e]', 'text-white', 'border-white/20');
+                } else {
+                  link.classList.remove('bg-yuri-pink', 'border-yuri-dark', 'shadow-[2px_2px_0px_#2b2b2b]');
+                  link.classList.add('bg-yuri-bg', 'border-yuri-dark/20');
+                }
               }
             });
 

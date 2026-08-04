@@ -10,20 +10,30 @@
         "button_link": "shopify:\/\/collections\/all"
       }
     },
+    "halloween_banner": {
+      "type": "halloween-banner",
+      "settings": {
+        "subtitle": "Limited Spooky Edition 🎃",
+        "title": "Spooky Cute Season is Here!",
+        "description": "Dress up your furry friends in our adorable, limited-edition Halloween gear. Boo-tiful capes, cozy pumpkin beds, and spooky squeaky toys await!",
+        "button_label": "Explore Pet Halloween",
+        "button_link": "shopify:\/\/collections\/pet-halloween"
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
         "title": "Our Pet Collection 🐾",
         "heading_size": "h1",
-        "description": "<p>Carefully selected items for your furry friends. Directly available below!</p>",
+        "description": "<p>Carefully selected items from our Featured Collection!</p>",
         "show_description": true,
         "description_style": "body",
-        "collection": "all",
+        "collection": "frontpage",
         "products_to_show": 12,
         "columns_desktop": 4,
         "color_scheme": "scheme-1",
         "full_width": false,
-        "show_view_all": false,
+        "show_view_all": true,
         "view_all_style": "solid",
         "enable_desktop_slider": false,
         "swipe_on_mobile": true,
@@ -59,6 +69,7 @@
   },
   "order": [
     "image_banner",
+    "halloween_banner",
     "featured_collection",
     "yuri_story",
     "pet_features"

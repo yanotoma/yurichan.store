@@ -32,7 +32,7 @@
     {{ content_for_header }}
   </head>
 
-  <body class="bg-yuri-bg text-yuri-dark font-outline min-h-screen antialiased">
+  <body class="{% if template.name == 'collection' and collection.handle == 'pet-halloween' %}bg-[#121214] text-white{% else %}bg-yuri-bg text-yuri-dark{% endif %} font-outline min-h-screen antialiased">
     <a class="sr-only focus:not-sr-only focus:p-4 focus:bg-yuri-pink focus:text-yuri-dark" href="#MainContent">
       Skip to content
     </a>
