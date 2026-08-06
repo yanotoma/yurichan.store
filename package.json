@@ -6,7 +6,9 @@
   "scripts": {
     "build:css": "npx @tailwindcss/cli -i ./src/tailwind.css -o ./assets/tailwind.css --minify",
     "watch:css": "npx @tailwindcss/cli -i ./src/tailwind.css -o ./assets/tailwind.css --watch",
-    "dev": "npx @tailwindcss/cli -i ./src/tailwind.css -o ./assets/tailwind.css --watch & shopify theme dev --store bys-user-store-173607-4xg1yipr.myshopify.com"
+    "dev": "npx @tailwindcss/cli -i ./src/tailwind.css -o ./assets/tailwind.css --watch & shopify theme dev --store bys-user-store-173607-4xg1yipr.myshopify.com",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,7 @@
   },
   "homepage": "https://github.com/yanotoma/yurichan.store#readme",
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/cli": "^4.3.3",
     "tailwindcss": "^4.0.0"
   }

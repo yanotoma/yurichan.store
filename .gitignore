@@ -16,3 +16,5 @@ product_backups/
 backup_products.json
 scratch/
 .agents/
+playwright-report/
+test-results/
